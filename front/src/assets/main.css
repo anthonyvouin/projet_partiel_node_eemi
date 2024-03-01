@@ -1,0 +1,17 @@
+@import 'primevue/resources/themes/aura-light-green/theme.css';
+@import './base.css';
+@import './size.css';
+@import './flex.css';
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+
+.background-primary{
+    background-color: rgb(31, 31, 67);
+}
