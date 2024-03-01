@@ -1,6 +1,7 @@
 // app.js
 import express from 'express';
 import productRoute from "./src/routes/product.js";
+import categoryRoute from "./src/routes/category.js";
 import connectDB from './config/db.config.js';
 import bodyParser from 'body-parser';
 import cors from 'cors'; 
@@ -18,6 +19,8 @@ app.use(cors());
 
 // Utilisation des routes
 app.use('/api/product', productRoute); 
+app.use("/api/category", categoryRoute); 
+
 
 // Ecoute du server
 app.listen(port, () => {
