@@ -2,25 +2,25 @@
 
 <template>
   <main>
-    <TheWelcome/>
-
-    <Filter @changeCategory="handleChangeCategory"></Filter>
-
-    <Products :category="selectedCategory"></Products>
+    <Filter @changeCategory="handleChangeCategory" @changeOrderBy="handleChangeOrderBy"></Filter>
+    <Products :category="selectedCategory" :orderBy="selectOrderBy" ></Products>
     </main>
 </template>
 
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
-import Products from '../components/Products/product.vue'
-import Filter from '../components/Filter/Filter.vue'
+import Products from '../components/Products/product.vue';
+import Filter from '../components/Filter/Filter.vue';
 import { ref } from 'vue';
 
 const selectedCategory = ref('tous les produits')
+const selectOrderBy = ref('');
 
 
 const handleChangeCategory = (e)=> {
-  console.log('bien recu', e.name)
-  selectedCategory.value = e.name
+  selectedCategory.value = e.name;
+}
+
+const handleChangeOrderBy = (e) => {
+  selectOrderBy.value = e;
 }
 </script>

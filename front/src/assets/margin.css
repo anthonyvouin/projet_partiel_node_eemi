@@ -16,10 +16,19 @@
 .mr-10px{
     margin-right: 10px;
 }
+
+.mr-1{
+    margin-right: 1em;
+}
+
 .ml-10px{
     margin-left: 10px;
 }
 
 .padding-5px{
     padding: 5px;
+}
+
+.padding-10px{
+    padding: 10px;
 }

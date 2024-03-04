@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-wrap column row-desktop column-gap-10 container-card row-gap-20 ">
-        <Card v-for="(item, index) in products" :key="index" class="width-300px flex column justify-space-between" >
+        <Card v-for="(item, index) in searchProduct" :key="index" class="width-300px flex column justify-space-between card" >
             <template #title>
                 <div class="text-center padding-5px" style="min-height: 128px;">
                     {{ item.title }}
@@ -26,11 +26,14 @@
 import { ref, onMounted, defineProps, watch } from 'vue';
 import Card from 'primevue/card';
 import Button from 'primevue/button';
+import { bus } from '@/main';
 
-const products = ref();
+const products = ref([]);
+const searchProduct = ref([]);
 
 const props = defineProps({
   category: String,
+  orderBy: String
 });
 
 const selectedCategory = ref(props.category)
@@ -41,20 +44,44 @@ onMounted(async() => {
 
 const getProductsList = async () => {
     let response;
+    products.value = [];
     if(selectedCategory.value === 'tous les produits'){
         response = await fetch("http://localhost:3000/api/product/get-all-products");
-        products.value  = await response.json();
-      }else{
+    }else{
         response =  await fetch(`http://localhost:3000/api/product/get-product-by-category/${selectedCategory.value}`)
-        products.value  = await response.json();
-      }
+    }
+
+    products.value  = await response.json();
+    searchProduct.value = products.value.slice()
+    orderBy();
 };
 
+
 watch(() => props.category, (newValue, oldValue) => { 
-      selectedCategory.value = newValue;
-      getProductsList();
-   
+    selectedCategory.value = newValue;
+    getProductsList();
 });
+
+watch(() => props.orderBy, (newValue, oldValue) => { 
+    orderBy();
+});
+
+const orderBy = () => {
+    if(props.orderBy === 'asc'){
+        searchProduct.value.sort((a, b) => b.price - a.price);
+    }else if( props.orderBy  === 'desc'){
+        searchProduct.value.sort((a, b) => a.price - b.price);
+    }else{
+        searchProduct.value = products.value.slice();
+    }
+}
+
+bus.on('search', (data)=>{
+    searchProduct.value = products.value.slice();
+    searchProduct.value = searchProduct.value.filter(objet => objet.title.toLowerCase().includes(data.toLowerCase()));
+    orderBy();
+})
+
 </script>
 
 <style scoped src="./style.css"></style>
