@@ -12,7 +12,7 @@ const app = express();
 const port = 3000
 
 // Connexion à la base de données
-connectDB();
+// connectDB();
 
 // Utilisation de bodyParser pour parser le corps des requêtes en JSON
 app.use(bodyParser.json());

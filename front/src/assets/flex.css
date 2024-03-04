@@ -6,6 +6,34 @@
     justify-content: space-between;
 }
 
+.justify-space-around{
+    justify-content: space-around;
+}
+
 .align-items-center{
     align-items: center;
+}
+
+.flex-wrap{
+    flex-wrap: wrap;
+}
+
+.column{
+    flex-direction: column;
+}
+.row-desktop{
+    @media screen and (min-width: 700px) {
+        flex-direction: row;
+    }
+}
+
+.row-reverse{
+    flex-direction: row-reverse;
+}
+.column-gap-10{
+    column-gap: 10px;
+}
+
+.row-gap-20{
+    row-gap: 20px;
 }
