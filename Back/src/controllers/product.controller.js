@@ -58,4 +58,32 @@ export async function getProductById(req, res) {
   }
 }
 
-export default { sayHello, getAllProducts, getProductById};
+// controller pour recupere tous les produits en fonction d'une category 
+export async function getProductsByCategory(req, res) {
+  const { category } = req.params; // Récupère la catégorie spécifique depuis les paramètres de la requête
+
+  try {
+    const response = await fetch(
+      `https://fakestoreapi.com/products/category/${category}`
+    );
+    const products = await response.json();
+
+    // Transformation des données des produits
+    const formattedProducts = products.map((product) => ({
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      description: product.description,
+      category: product.category,
+      image: product.image,
+    }));
+
+    // Envoi des produits formatés en tant que réponse JSON
+    res.json(formattedProducts);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+export default { sayHello, getAllProducts, getProductById, getProductsByCategory };

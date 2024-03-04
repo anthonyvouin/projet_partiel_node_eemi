@@ -5,14 +5,10 @@ import { sayHelloCategory, getAllCategories} from "../controllers/category.contr
 // Setup router
 const router = express.Router();
 
-// Appel des routes products
+// Appel des routes category
 router.get("/test", sayHelloCategory);
+
 router.get("/get-all-category", getAllCategories);
 
-
-
-// Appel des routes category
-
-//Appel des routes contact
 
 export default router;
