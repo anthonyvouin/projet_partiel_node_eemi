@@ -1,11 +1,6 @@
 import axios from "axios";
 
 
-//test
-export const sayHelloCategory = (req, res) => {
-  res.send("Coucou 2 !");
-};
-
 // controller pour recuperer toutes les category
 export async function getAllCategories(req, res) {
   try {
@@ -23,4 +18,4 @@ export async function getAllCategories(req, res) {
 
 // controller pour recuperer un produit par id
 
-export default {  sayHelloCategory, getAllCategories};
+export default { getAllCategories};

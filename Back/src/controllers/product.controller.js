@@ -1,9 +1,5 @@
 import axios from "axios";
 
-// Test
-export const sayHello = (req, res) => {
-  res.send("Coucou !");
-};
 
 // controller pour recuperer tous les produits
 export async function getAllProducts(req, res) {
@@ -63,10 +59,10 @@ export async function getProductsByCategory(req, res) {
   const { category } = req.params; // Récupère la catégorie spécifique depuis les paramètres de la requête
 
   try {
-    const response = await fetch(
+    const response = await axios.get(
       `https://fakestoreapi.com/products/category/${category}`
     );
-    const products = await response.json();
+    const products = response.data;
 
     // Transformation des données des produits
     const formattedProducts = products.map((product) => ({
@@ -86,4 +82,4 @@ export async function getProductsByCategory(req, res) {
   }
 }
 
-export default { sayHello, getAllProducts, getProductById, getProductsByCategory };
+export default { getAllProducts, getProductById, getProductsByCategory };

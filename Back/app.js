@@ -2,6 +2,7 @@
 import express from 'express';
 import productRoute from "./src/routes/product.js";
 import categoryRoute from "./src/routes/category.js";
+import contactRoute from "./src/routes/contact.js";
 import connectDB from './config/db.config.js';
 import bodyParser from 'body-parser';
 import cors from 'cors'; 
@@ -20,6 +21,7 @@ app.use(cors());
 // Utilisation des routes
 app.use('/api/product', productRoute); 
 app.use("/api/category", categoryRoute); 
+app.use("/api/contact", contactRoute)
 
 
 // Ecoute du server
