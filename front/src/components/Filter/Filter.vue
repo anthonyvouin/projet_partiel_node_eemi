@@ -1,5 +1,21 @@
 <template>
     <div class="flex justify-center mt-1">
+        <Toast  class="max-width-90" :pt="{container:{class:'padding-10px'}}" >
+            <template #message="slotProps">
+                <div class="flex column align-items-start" style="flex: 1">
+                    <div class="flex align-items-center ">
+                        <p class="pi pi-info-circle pr-10px"></p>
+                        <span>{{ slotProps.message.summary }}</span>
+                    </div>
+                    <div>{{ slotProps.message.detail }}</div>
+                </div>
+            </template>
+            <template #closeicon>
+                <div>
+                    <span class="pi pi-times"></span>
+                </div>
+            </template>
+        </Toast>
         <Dropdown
         v-model="selectedCategory" 
         :options="options" 
@@ -28,6 +44,9 @@
     import { ref, onMounted, defineEmits } from 'vue';
     import Dropdown from 'primevue/dropdown';
     import Button from 'primevue/button';
+    import Toast from 'primevue/toast';
+    import { useToast } from 'primevue/usetoast';
+    const toast = useToast();
     const emit = defineEmits();
     const selectedCategory = ref({name: 'tous les produits'});
     const options = ref([]);
@@ -66,12 +85,18 @@
     const changeOrderBy = () => {
         switch (step.value){
             case '':
+                toast.remove()
+                toast.add({ severity: 'info', summary: 'Trie ', detail: 'Du plus grand au plus petit', life: 3000 });
                 step.value = 'asc'
                 return emit('changeOrderBy', 'asc');
             case 'asc':
+            toast.remove()
+            toast.add({ severity: 'info', summary: 'Trie ', detail: 'Du plus petit au plus grand', life: 3000 });
                 step.value = 'desc'
                 return emit('changeOrderBy', 'desc');
             case 'desc': 
+            toast.remove()
+            toast.add({ severity: 'info', summary: 'Trie', detail: 'Réglage par défault', life: 3000 });
                 step.value = ''
                 return emit('changeOrderBy', '');
         }

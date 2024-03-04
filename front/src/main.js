@@ -6,10 +6,12 @@ import PrimeVue from 'primevue/config';
 import router from './router'
 import { TinyEmitter } from "tiny-emitter";
 import Tooltip from 'primevue/tooltip';
+import ToastService from 'primevue/toastservice';
 export const bus = new TinyEmitter();
 
 const app = createApp(App)
-app.directive('tooltip', Tooltip);
 app.use(router)
 app.use(PrimeVue)
+app.directive('tooltip', Tooltip);
+app.use(ToastService);
 app.mount('#app')
