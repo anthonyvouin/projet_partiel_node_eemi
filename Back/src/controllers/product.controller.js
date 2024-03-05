@@ -90,11 +90,9 @@ export async function getProductsByCategory(req, res) {
 // Catégories autorisées
 const allowedCategories = ["electronics", "diamond", "jewelery", "men's clothing", "women's clothing"];
 
-
-
 // controller pour créer un new product
 export async function createProduct(req, res) {
-  const { id, title, price, description, category } = req.body;
+  const { title, price, description, category } = req.body;
   const imagePath = req.file.path;
 
   try {
@@ -117,7 +115,6 @@ export async function createProduct(req, res) {
     await rename(imagePath, imageNewPath);
 
     const newProduct = new Product({
-      id,
       title,
       price,
       description,
@@ -136,10 +133,40 @@ export async function createProduct(req, res) {
   }
 }
 
+//Controller delete product bdd dans la bdd
+export async function deleteProduct(req, res) {
+  const productId = req.params.id; // Récupérer l'ID du produit à supprimer
+
+  try {
+    // Trouver le produit dans la base de données par son ID
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return res.status(404).json({ error: "Le produit n'a pas été trouvé." });
+    }
+
+    // Supprimer l'image associée du dossier public/images si elle existe
+    if (fs.existsSync(product.imagePath)) {
+      fs.unlinkSync(product.imagePath);
+    }
+
+    // Supprimer le produit de la base de données
+    await Product.findByIdAndDelete(productId);
+
+    // Répondre avec un message indiquant que le produit a été supprimé avec succès
+    res.json({ message: "Le produit a été supprimé avec succès." });
+  } catch (error) {
+    console.error("Erreur lors de la suppression du produit :", error);
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la suppression du produit." });
+  }
+}
 
 export default {
   getAllProducts,
   getProductById,
   getProductsByCategory,
   createProduct,
+  deleteProduct
 };
