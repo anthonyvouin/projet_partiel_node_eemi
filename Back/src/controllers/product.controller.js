@@ -88,31 +88,22 @@ export async function getProductsByCategory(req, res) {
 // controller pour créer un new product
 export async function createProduct(req, res) {
   const { id, title, price, description, category } = req.body;
-  console.log(req);
-  const { image } = req.file; 
+  const imagePath = req.file.path; // Utilisez req.file.path pour obtenir le chemin de l'image
 
   try {
-    const imagePath = path.join(__dirname, "../public/images"); 
-    if (!fs.existsSync(imagePath)) {
-      fs.mkdirSync(imagePath, { recursive: true }); 
-    }
-
-    const imageFileName = `${id}-${image.originalname}`; 
-    const imagePathFull = path.join(imagePath, imageFileName); 
-    await fs.promises.writeFile(imagePathFull, image.buffer); 
     const newProduct = new Product({
       id,
       title,
       price,
       description,
       category,
-      imagePath: imagePathFull, 
+      imagePath: imagePath, // Enregistrez le chemin de l'image dans la base de données
     });
 
     // Enregistrer le produit dans la base de données
     await newProduct.save();
 
-    // Répondre avec le produit créé
+    // Répondre avec le produit créer
     res.status(201).json(newProduct);
   } catch (error) {
     // En cas d'erreur, répondre avec un message d'erreur
