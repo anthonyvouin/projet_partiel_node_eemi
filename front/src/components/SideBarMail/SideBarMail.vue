@@ -152,8 +152,8 @@
         if(isValid){
             const prepareEmail = {
                 email:email.value,
-                firstname:firstname.value,
-                lastname:lastname.value,
+                firstName:firstname.value,
+                lastName:lastname.value,
                 subject:subject.value,
                 message:message.value
             }

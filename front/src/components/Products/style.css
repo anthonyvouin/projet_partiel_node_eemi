@@ -16,7 +16,7 @@
         width: calc(300px *3 + 30px);
     }
 
-    @media screen and (min-width: 1500px) {
+    @media screen and (min-width: 1570px) {
         width: calc(300px *5 + 50px);
     }
 }
