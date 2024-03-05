@@ -7,7 +7,7 @@ import connectDB from "./config/db.config.js";
 import bodyParser from "body-parser";
 import cors from "cors";
 import multer from "multer"; // Importez Multer
-
+import fs from 'fs'
 // serveur
 const app = express();
 const port = 3000;
@@ -20,13 +20,25 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Creer le dossier de destination s'il n'existe pas
+const dossier = './public/images';
+if (!fs.existsSync(dossier)) {
+  fs.mkdir(dossier, { recursive: true }, (err) => {
+    if (err) {
+      console.error('Erreur lors de la création du dossier :', err);
+      return;
+    }
+    console.log('Le dossier a été créé avec succès !');
+  });
+} 
+
 // Définition du dossier de stockage des images
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./public/images"); // Indiquez le dossier où enregistrer les images
+    cb(null, dossier);
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname); // Utilisez le nom original du fichier
+    cb(null, file.originalname);
   },
 });
 
