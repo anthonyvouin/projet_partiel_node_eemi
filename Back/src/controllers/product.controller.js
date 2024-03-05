@@ -87,10 +87,12 @@ export async function getProductsByCategory(req, res) {
   }
 }
 
-// controller pour créer un new product
 // Catégories autorisées
 const allowedCategories = ["electronics", "diamond", "jewelery", "men's clothing", "women's clothing"];
 
+
+
+// controller pour créer un new product
 export async function createProduct(req, res) {
   const { id, title, price, description, category } = req.body;
   const imagePath = req.file.path;
@@ -98,14 +100,20 @@ export async function createProduct(req, res) {
   try {
     // Vérifier si la catégorie est autorisée
     if (!allowedCategories.includes(category)) {
-      return res.status(400).json({ error: "La catégorie spécifiée n'est pas valide." });
+      // Supprimer le fichier image s'il existe
+      if (fs.existsSync(imagePath)) {
+        fs.unlinkSync(imagePath);
+      }
+      return res
+        .status(400)
+        .json({ error: "La catégorie spécifiée n'est pas valide." });
     }
 
     // Générer un nom d'image aléatoire
     const randomName = randomBytes(8).toString("hex") + ".jpg";
     const imageNewPath = path.join(path.dirname(imagePath), randomName);
 
-    // Renommer le fichier
+    // Renommer le fichier si la catégorie est valide
     await rename(imagePath, imageNewPath);
 
     const newProduct = new Product({
@@ -127,6 +135,7 @@ export async function createProduct(req, res) {
     res.status(500).json({ error: "Erreur lors de la création du produit" });
   }
 }
+
 
 export default {
   getAllProducts,
