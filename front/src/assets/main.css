@@ -15,3 +15,7 @@
 .background-primary{
     background-color: rgb(31, 31, 67);
 }
+
+.cursor-pointer{
+    cursor: pointer;
+}

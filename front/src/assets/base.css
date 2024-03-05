@@ -1,1 +1,12 @@
 /* color palette from <https://github.com/vuejs/theme> */
+.white{
+    color: white;
+}
+
+.color-red{
+    color:red
+}
+
+.primary-color{
+  background-color: #0EA5E9;  
+}

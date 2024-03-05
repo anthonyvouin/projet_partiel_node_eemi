@@ -79,7 +79,6 @@ const orderBy = () => {
 bus.on('search', (data)=>{
     searchProduct.value = products.value.slice();
     searchProduct.value = searchProduct.value.filter(objet => objet.title.toLowerCase().includes(data.toLowerCase()));
-    orderBy();
 })
 
 </script>
