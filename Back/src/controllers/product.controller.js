@@ -6,7 +6,6 @@ import path from "path";
 import { randomBytes } from "crypto";
 import { rename } from "fs/promises";
 
-
 // controller pour recuperer tous les produits
 export async function getAllProducts(req, res) {
   try {
@@ -89,11 +88,19 @@ export async function getProductsByCategory(req, res) {
 }
 
 // controller pour créer un new product
+// Catégories autorisées
+const allowedCategories = ["electronics", "diamond", "jewelery", "men's clothing", "women's clothing"];
+
 export async function createProduct(req, res) {
   const { id, title, price, description, category } = req.body;
   const imagePath = req.file.path;
 
   try {
+    // Vérifier si la catégorie est autorisée
+    if (!allowedCategories.includes(category)) {
+      return res.status(400).json({ error: "La catégorie spécifiée n'est pas valide." });
+    }
+
     // Générer un nom d'image aléatoire
     const randomName = randomBytes(8).toString("hex") + ".jpg";
     const imageNewPath = path.join(path.dirname(imagePath), randomName);
@@ -121,4 +128,9 @@ export async function createProduct(req, res) {
   }
 }
 
-export default { getAllProducts, getProductById, getProductsByCategory, createProduct };
+export default {
+  getAllProducts,
+  getProductById,
+  getProductsByCategory,
+  createProduct,
+};
