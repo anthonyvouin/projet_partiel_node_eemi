@@ -3,6 +3,9 @@ import mongoose from "mongoose";
 import Product from "../models/Product.js";
 import fs from "fs";
 import path from "path";
+import { randomBytes } from "crypto";
+import { rename } from "fs/promises";
+
 
 // controller pour recuperer tous les produits
 export async function getAllProducts(req, res) {
@@ -88,25 +91,31 @@ export async function getProductsByCategory(req, res) {
 // controller pour créer un new product
 export async function createProduct(req, res) {
   const { id, title, price, description, category } = req.body;
-  const imagePath = req.file.path; // Utilisez req.file.path pour obtenir le chemin de l'image
+  const imagePath = req.file.path;
 
   try {
+    // Générer un nom d'image aléatoire
+    const randomName = randomBytes(8).toString("hex") + ".jpg";
+    const imageNewPath = path.join(path.dirname(imagePath), randomName);
+
+    // Renommer le fichier
+    await rename(imagePath, imageNewPath);
+
     const newProduct = new Product({
       id,
       title,
       price,
       description,
       category,
-      imagePath: imagePath, // Enregistrez le chemin de l'image dans la base de données
+      imagePath: imageNewPath,
     });
 
     // Enregistrer le produit dans la base de données
     await newProduct.save();
 
-    // Répondre avec le produit créer
+    // Répondre avec le produit créé
     res.status(201).json(newProduct);
   } catch (error) {
-    // En cas d'erreur, répondre avec un message d'erreur
     console.error("Erreur lors de la création du produit :", error);
     res.status(500).json({ error: "Erreur lors de la création du produit" });
   }
