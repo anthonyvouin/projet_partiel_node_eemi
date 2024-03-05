@@ -163,10 +163,67 @@ export async function deleteProduct(req, res) {
   }
 }
 
+//Controller update product bdd
+export async function updateProduct(req, res) {
+  const productId = req.params.id; // Récupérer l'ID du produit à mettre à jour
+  const { title, price, description, category } = req.body;
+  const imagePath = req.file.path;
+
+  try {
+    // Trouver le produit dans la base de données par son ID
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return res.status(404).json({ error: "Le produit n'a pas été trouvé." });
+    }
+
+    // Vérifier si la catégorie est autorisée
+    if (!allowedCategories.includes(category)) {
+      // Supprimer le fichier image s'il existe
+      if (fs.existsSync(imagePath)) {
+        fs.unlinkSync(imagePath);
+      }
+      return res
+        .status(400)
+        .json({ error: "La catégorie spécifiée n'est pas valide." });
+    }
+
+    // Supprimer l'ancienne image du dossier public/images si elle existe
+    if (fs.existsSync(product.imagePath)) {
+      fs.unlinkSync(product.imagePath);
+    }
+
+    // Générer un nouveau nom d'image aléatoire
+    const randomName = randomBytes(8).toString("hex") + ".jpg";
+    const newImagePath = path.join(path.dirname(imagePath), randomName);
+
+    // Renommer le fichier de la nouvelle image
+    fs.renameSync(imagePath, newImagePath);
+
+    // Mettre à jour les données du produit avec les nouvelles informations
+    product.title = title;
+    product.price = price;
+    product.description = description;
+    product.category = category;
+    product.imagePath = newImagePath;
+
+    // Enregistrer les modifications dans la base de données
+    await product.save();
+
+    // Répondre avec le produit mis à jour
+    res.json({ message: "Le produit a été mis à jour avec succès.", product });
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour du produit :", error);
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la mise à jour du produit." });
+  }
+}
+
 export default {
   getAllProducts,
   getProductById,
   getProductsByCategory,
   createProduct,
-  deleteProduct
+  deleteProduct, updateProduct
 };
