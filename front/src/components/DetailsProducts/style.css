@@ -11,3 +11,7 @@
 .height-38px{
     height: 38px;
 }
+
+.min-width-button{
+    min-width: 133px;
+}

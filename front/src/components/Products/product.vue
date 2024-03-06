@@ -36,8 +36,8 @@ import Button from 'primevue/button';
 import { bus } from '@/main';
 import { useDialog } from 'primevue/usedialog';
 import DynamicDialog from 'primevue/dynamicdialog';
-
-
+import { useToast } from 'primevue/usetoast';
+const toast = useToast();
 
 const DetailsProducts =  defineAsyncComponent(() => import('../DetailsProducts/DetailsProducts.vue'));
 const dialog = useDialog();
@@ -50,7 +50,7 @@ const props = defineProps({
   orderBy: String
 });
 
-const selectedCategory = ref(props.category)
+const selectedCategory = ref(props.category);
 
 onMounted(async() => {
     getProductsList();
@@ -62,11 +62,11 @@ const getProductsList = async () => {
     if(selectedCategory.value === 'tous les produits'){
         response = await fetch("http://localhost:3000/api/product/get-all-products");
     }else{
-        response =  await fetch(`http://localhost:3000/api/product/get-product-by-category/${selectedCategory.value}`)
+        response =  await fetch(`http://localhost:3000/api/product/get-product-by-category/${selectedCategory.value}`);
     }
 
     products.value  = await response.json();
-    searchProduct.value = products.value.slice()
+    searchProduct.value = products.value.slice();
     orderBy();
 };
 
@@ -110,6 +110,12 @@ const getDetails = (products) => {
                 closeicon:{ class: 'white' },
             },
             modal: true
+        },
+        onClose: (options) => {
+            const data = options.data;
+            if (data && data.toastMessage) {
+                toast.add({ severity:data.severity, summary: data.title, detail: data.toastMessage, life: 3000 });
+            }
         }
     });
 }
