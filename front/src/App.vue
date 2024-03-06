@@ -17,6 +17,7 @@
   import SideBarMail from './components/SideBarMail/SideBarMail.vue';
   import { bus } from '@/main.js';
   import { ref } from 'vue';
+
   const visible = ref(false)
   bus.on('sidebar', (data)=>{
    visible.value = !visible.value

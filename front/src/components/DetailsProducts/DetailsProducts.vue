@@ -56,6 +56,7 @@ import { inject, onMounted, ref } from "vue";
 import { formatPrice } from "@/pipe/formatNumber";
 import InputNumber from 'primevue/inputnumber';
 import Button from 'primevue/button';
+import { bus } from "@/main";
 
 const dialogRef = inject('dialogRef');
 const product = ref('');
@@ -129,6 +130,7 @@ const addProduct = () => {
     }
    
     saveProduct(data);
+    bus.emit('updateProduct');
 }
 
 const deleteProduct = () => {
@@ -149,6 +151,7 @@ const deleteProduct = () => {
         toast.title = product.value.title;
         toast.status = 'Remove';
         toast.toastMessage = `a été supprimé du panier.`;
+        bus.emit('updateProduct');
     }
     dialogRef.value.close(toast);
 

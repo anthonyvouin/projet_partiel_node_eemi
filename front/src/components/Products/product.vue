@@ -26,6 +26,17 @@
             </Card>
         </div>  
         <DynamicDialog />
+        <Button type="button"
+        class="padding-10px shopCard" 
+        severity="info"
+        rounded 
+        icon="pi pi-shopping-cart"
+        iconClass="mr-1"
+        :label="numberSavedProduct"
+        @click="sideBarShop()"  
+        />
+
+        <SideBarShop :visible="visibilitySideBarShop"></SideBarShop>
     </div>  
 </template>
 
@@ -37,13 +48,17 @@ import { bus } from '@/main';
 import { useDialog } from 'primevue/usedialog';
 import DynamicDialog from 'primevue/dynamicdialog';
 import { useToast } from 'primevue/usetoast';
-const toast = useToast();
+import SideBarShop from '../SideBarShop/SideBarShop.vue'
 
+const toast = useToast();
 const DetailsProducts =  defineAsyncComponent(() => import('../DetailsProducts/DetailsProducts.vue'));
 const dialog = useDialog();
-
 const products = ref([]);
 const searchProduct = ref([]);
+const visibilitySideBarShop = ref(false)
+const savedProduct = ref([]);
+
+const numberSavedProduct = ref('')
 
 const props = defineProps({
   category: String,
@@ -54,7 +69,12 @@ const selectedCategory = ref(props.category);
 
 onMounted(async() => {
     getProductsList();
+    getQuickShop();
 })
+
+const  sideBarShop = () => {
+    visibilitySideBarShop.value = !visibilitySideBarShop.value
+}
 
 const getProductsList = async () => {
     let response;
@@ -120,9 +140,31 @@ const getDetails = (products) => {
     });
 }
 
+
+const getQuickShop = () => {
+    numberSavedProduct.value = 0
+    const saveProduct = localStorage.getItem('babawishList');
+    if(saveProduct){
+        savedProduct.value = JSON.parse(saveProduct);
+        savedProduct.value.forEach(element => {
+            numberSavedProduct.value += element.quantity
+        });
+    }
+    numberSavedProduct.value =  numberSavedProduct.value.toString()
+}
+
 bus.on('search', (data)=>{
     searchProduct.value = products.value.slice();
     searchProduct.value = searchProduct.value.filter(objet => objet.title.toLowerCase().includes(data.toLowerCase()));
+})
+
+bus.on('updateProduct', (data)=>{
+    getQuickShop();
+})
+
+bus.on('sidebar-shop', (data)=>{
+    visibilitySideBarShop.value = !visibilitySideBarShop.value
+    localStorage.setItem('babawishList', JSON.stringify(savedProduct.value));
 })
 
 </script>
