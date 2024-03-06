@@ -1,32 +1,46 @@
 <template>
-    <div class="flex flex-wrap column row-desktop column-gap-10 container-card row-gap-20 ">
-        <Card v-for="(item, index) in searchProduct" :key="index" class="width-300px flex column justify-space-between card" >
-            <template #title>
-                <div class="text-center padding-5px" style="min-height: 128px;">
-                    {{ item.title }}
-                </div>
-            </template>
+    <div>
+        <div class="flex flex-wrap column row-desktop column-gap-10 container-card row-gap-20 ">
+            <Card v-for="(item, index) in searchProduct" :key="index" class="width-300px flex column justify-space-between card" >
+                <template #title>
+                    <div class="text-center padding-5px" style="min-height: 128px;">
+                        {{ item.title }}
+                    </div>
+                </template>
 
-            <template #content>
-                <img :src="item.image" 
-                class="img-description">
-            </template>
+                <template #content>
+                    <img :src="item.image" 
+                    class="img-description">
+                </template>
 
-            <template #footer>
-                <div class="flex justify-space-between align-items-center mb-10px mt-2">
-                    <p class="ml-10px">{{item.price}} €</p>
-                    <Button class="padding-5px mr-10px" label="Détail" severity="info" outlined />
-                </div>
-            </template>
-        </Card>
-    </div>    
+                <template #footer>
+                    <div class="flex justify-space-between align-items-center mb-10px mt-2">
+                        <p class="ml-10px">{{item.price}} €</p>
+                        <Button class="padding-5px mr-10px" 
+                        label="Détail" 
+                        severity="info" 
+                        outlined 
+                        @click="getDetails(item)"/>
+                    </div>
+                </template>
+            </Card>
+        </div>  
+        <DynamicDialog />
+    </div>  
 </template>
 
 <script setup>
-import { ref, onMounted, defineProps, watch } from 'vue';
+import { ref, onMounted, defineProps, watch, defineAsyncComponent  } from 'vue';
 import Card from 'primevue/card';
 import Button from 'primevue/button';
 import { bus } from '@/main';
+import { useDialog } from 'primevue/usedialog';
+import DynamicDialog from 'primevue/dynamicdialog';
+
+
+
+const DetailsProducts =  defineAsyncComponent(() => import('../DetailsProducts/DetailsProducts.vue'));
+const dialog = useDialog();
 
 const products = ref([]);
 const searchProduct = ref([]);
@@ -74,6 +88,30 @@ const orderBy = () => {
     }else{
         searchProduct.value = products.value.slice();
     }
+}
+
+const getDetails = (products) => {
+    dialog.open(DetailsProducts, {
+        data: {
+            products:products
+        },
+        props: {
+            header: products.title,
+            style: {
+                width: '50vw',
+                height: '90vh',
+            },
+            breakpoints:{
+                '960px': '75vw',
+                '640px': '100vw'
+            },
+            pt:{
+                header:{ class: 'primary-color padding-10px white' },
+                closeicon:{ class: 'white' },
+            },
+            modal: true
+        }
+    });
 }
 
 bus.on('search', (data)=>{

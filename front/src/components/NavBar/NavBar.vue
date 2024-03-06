@@ -1,7 +1,7 @@
 <template>
     <nav class="flex justify-space-between width-100 background-primary height-70px align-items-center">
-        <RouterLink to="/" class="link">
-            <img alt="logo" class="ml-1" src="../../assets/logo.png" />
+        <RouterLink to="/">
+            <img alt="logo" class="ml-1 logo" src="../../assets/logo.png" />
         </RouterLink>
         <Search></Search>
         <span class="material-symbols-outlined white mr-1 cursor-pointer"
@@ -17,3 +17,5 @@
         bus.emit('sidebar')
     }
 </script>
+
+<style scoped src="./style.css"></style>

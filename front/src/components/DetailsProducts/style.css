@@ -1,0 +1,13 @@
+.img-product{
+    width: 100%;
+    height: 330px;
+    object-fit: contain;
+}
+
+.justify{
+    text-align: justify;
+}
+
+.height-38px{
+    height: 38px;
+}
