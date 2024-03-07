@@ -157,7 +157,7 @@
                 subject:subject.value,
                 message:message.value
             }
-            const url = `${host}:${port}${routesApp.contact}`;
+            const url = `${host}${port}${routesApp.contact}`;
 
             const options = {    
                 method: 'POST', 

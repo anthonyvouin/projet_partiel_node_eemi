@@ -91,7 +91,7 @@ export async function getProductsByCategory(req, res) {
 
 
 // Catégories autorisées
-const allowedCategories = ["electronics", "diamond", "jewelery", "men's clothing", "women's clothing"];
+const allowedCategories = ["electronics", "jewelery", "men's clothing", "women's clothing"];
 
 // controller pour créer un new product
 export async function createProduct(req, res) {

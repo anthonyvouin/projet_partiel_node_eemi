@@ -10,3 +10,8 @@
 .primary-color{
   background-color: #0EA5E9;  
 }
+
+.background-primary-dark{
+  background-color: rgb(31, 31, 67);
+  border: 1px solid rgb(31, 31, 67);
+}

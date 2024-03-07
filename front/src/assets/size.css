@@ -48,7 +48,9 @@
 .height-100{
     height: 100%;
 }
-
+.height-100vh{
+    height: 100vh;
+}
 .focus-sidebar-close-button:focus-visible{
     outline-color: white ;
 }

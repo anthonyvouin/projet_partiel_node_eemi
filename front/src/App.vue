@@ -1,9 +1,5 @@
 <template>
   <div>
-    <header>
-    <NavBar></NavBar>
-  </header>
-
   <RouterView />
   <SideBarMail :visible="visible"></SideBarMail>
   </div>
@@ -21,7 +17,7 @@
   const visible = ref(false)
   bus.on('sidebar', (data)=>{
    visible.value = !visible.value
-    })
+  })
 </script>
 
 <style scoped>

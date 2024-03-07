@@ -49,6 +49,7 @@ import { useDialog } from 'primevue/usedialog';
 import DynamicDialog from 'primevue/dynamicdialog';
 import { useToast } from 'primevue/usetoast';
 import SideBarShop from '../SideBarShop/SideBarShop.vue'
+import { host, port, routesApp } from '@/conf/route-app';
 
 const toast = useToast();
 const DetailsProducts =  defineAsyncComponent(() => import('../DetailsProducts/DetailsProducts.vue'));
@@ -80,7 +81,7 @@ const getProductsList = async () => {
     let response;
     products.value = [];
     if(selectedCategory.value === 'tous les produits'){
-        response = await fetch(`${host}:${port}${routesApp.product.allProductsApi}`);
+        response = await fetch(`${host}${port}${routesApp.product.allProductsApi}`);
     }else{
         response =  await fetch(`http://localhost:3000/api/product/get-product-by-category/${selectedCategory.value}`);
     }
@@ -89,7 +90,6 @@ const getProductsList = async () => {
     searchProduct.value = products.value.slice();
     orderBy();
 };
-
 
 watch(() => props.category, (newValue, oldValue) => { 
     selectedCategory.value = newValue;

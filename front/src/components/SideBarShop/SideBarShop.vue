@@ -89,7 +89,7 @@
     import InputNumber from 'primevue/inputnumber';
     import { formatPrice } from "@/pipe/formatNumber";
     import { useDialog } from 'primevue/usedialog';
-import { host, port, routesApp } from '@/conf/route-app';
+    import { host, port, routesApp } from '@/conf/route-app';
 
     const props = defineProps({
         visible: Boolean,
@@ -135,7 +135,7 @@ import { host, port, routesApp } from '@/conf/route-app';
         let getProduct;
 
         if(Number(product.id)){
-            getProduct = await fetch(`${host}:${port}${routesApp.product.productByIdApi}${product.id}`);
+            getProduct = await fetch(`${host}${port}${routesApp.product.productByIdApi}${product.id}`);
         }else{
             getProduct = await fetch("http://localhost:3000/api/product/bidule/"+product.id);
         }
