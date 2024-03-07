@@ -2,6 +2,7 @@ import express from "express";
 import productRoute from "./src/routes/product.js";
 import categoryRoute from "./src/routes/category.js";
 import contactRoute from "./src/routes/contact.js";
+import commandeRoute from "./src/routes/order.js";
 import connectDB from "./config/db.config.js";
 import bodyParser from "body-parser";
 import cors from "cors";
@@ -45,6 +46,8 @@ app.use("/public/images", express.static("public/images"));
 app.use("/api/product", upload.single("image"), productRoute);
 app.use("/api/category", categoryRoute);
 app.use("/api/contact", contactRoute);
+app.use("/api/order", commandeRoute);
+
 
 app.listen(port, () => {
   console.log(`Le serveur est démarré sur le port ${port}`);
