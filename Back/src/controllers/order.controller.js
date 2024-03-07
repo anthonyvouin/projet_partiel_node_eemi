@@ -49,6 +49,17 @@ export async function createOrder(req, res) {
 }
 
 // Controller get all order
+export async function getAllOrders(req, res) {
+  try {
+    const orders = await Order.find();
+    res.status(200).json({ orders });
+  } catch (error) {
+    console.error("Erreur lors de la récupération des commandes :", error);
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la récupération des commandes." });
+  }
+}
 
 
-export default {createOrder};
+export default {createOrder, getAllOrders};
