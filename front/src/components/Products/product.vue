@@ -80,7 +80,7 @@ const getProductsList = async () => {
     let response;
     products.value = [];
     if(selectedCategory.value === 'tous les produits'){
-        response = await fetch("http://localhost:3000/api/product/get-all-products");
+        response = await fetch(`${host}:${port}${routesApp.product.allProductsApi}`);
     }else{
         response =  await fetch(`http://localhost:3000/api/product/get-product-by-category/${selectedCategory.value}`);
     }

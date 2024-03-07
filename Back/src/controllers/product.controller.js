@@ -119,7 +119,7 @@ export async function createProduct(req, res) {
       price,
       description,
       category,
-      imagePath: imageNewPath,
+      image: imageNewPath,
     });
 
     // Enregistrer le produit dans la base de données
