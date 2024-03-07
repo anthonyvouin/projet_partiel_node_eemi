@@ -220,10 +220,23 @@ export async function updateProduct(req, res) {
   }
 }
 
+// Controller pour recuperer tous les produits 
+export async function getAllProductsDB(req, res) {
+  try {
+    const products = await Product.find();
+    res.status(200).json({ products });
+  } catch (error) {
+    console.error("Erreur lors de la récupération des produits :", error);
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la récupération des produits." });
+  }
+}
+
 export default {
   getAllProducts,
   getProductById,
   getProductsByCategory,
   createProduct,
-  deleteProduct, updateProduct
+  deleteProduct, updateProduct, getAllProductsDB
 };
