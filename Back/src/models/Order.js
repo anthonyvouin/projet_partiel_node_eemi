@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
-
-
+// un produit
 const productSchema = new mongoose.Schema({
   productId: {
     type: String,
@@ -13,7 +12,7 @@ const productSchema = new mongoose.Schema({
   price: { type: Number, required: false },
 });
 
-
+// list des produits pour le panier
 const orderSchema = new mongoose.Schema({
   products: [productSchema]
 });
