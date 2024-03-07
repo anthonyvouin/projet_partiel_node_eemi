@@ -146,8 +146,8 @@ export async function deleteProduct(req, res) {
     }
 
     // Supprimer l'image associée du dossier public/images si elle existe
-    if (fs.existsSync(product.imagePath)) {
-      fs.unlinkSync(product.imagePath);
+    if (fs.existsSync(product.image)) {
+      fs.unlinkSync(product.image);
     }
 
     // Supprimer le produit de la base de données

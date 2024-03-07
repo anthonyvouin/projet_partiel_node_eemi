@@ -2,6 +2,8 @@ import axios from "axios";
 import Order from "../models/Order.js";
 import Product from "../models/Product.js";
 
+
+// Controller pour create Order
 export async function createOrder(req, res) {
   const data = req.body;
   let result = [];
@@ -45,6 +47,8 @@ export async function createOrder(req, res) {
       .json({ error: "Erreur lors de la création de la commande." });
   }
 }
+
+// Controller get all order
 
 
 export default {createOrder};
