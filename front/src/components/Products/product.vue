@@ -36,7 +36,7 @@
         @click="sideBarShop()"  
         />
 
-        <SideBarShop :visible="visibilitySideBarShop"></SideBarShop>
+        <SideBarShop :visible="visibilitySideBarShop" :products="savedProduct" @delete-product="deleteProducts($event)"></SideBarShop>
     </div>  
 </template>
 
@@ -151,6 +151,12 @@ const getQuickShop = () => {
         });
     }
     numberSavedProduct.value =  numberSavedProduct.value.toString()
+}
+
+const deleteProducts = (e) => {
+    savedProduct.value = savedProduct.value.filter(item => item.id !== e);
+    localStorage.setItem('babawishList', JSON.stringify(savedProduct.value));
+    getQuickShop();
 }
 
 bus.on('search', (data)=>{

@@ -14,7 +14,13 @@
         <div class="padding-10px">
             <p class='mb-1'>Total : {{ totalPanier }} € </p>
             <div class="mb-4">
-                <Card  v-for="(item, index) in allProducts" 
+                <div class="flex justify-space-between padding-10px">
+                    <p class="width-25">Produits</p>
+                    <p class="width-25 ml-1">Prix</p>
+                    <p class="width-25">Quantité</p>
+                    <p>Actions</p>
+                </div>
+                <Card  v-for="(item, index) in props.products" 
                     :key="index" 
                     class="padding-10px mb-10px">
                     <template #content>
@@ -66,7 +72,7 @@
     import { bus } from '@/main';
     import Sidebar from 'primevue/sidebar';
     import Card from 'primevue/card';
-    import {defineProps, onMounted, ref } from 'vue';
+    import {defineProps, onMounted, ref, defineEmits, onUpdated } from 'vue';
     import Button from 'primevue/button';
     import InputNumber from 'primevue/inputnumber';
     import { formatPrice } from "@/pipe/formatNumber";
@@ -77,7 +83,7 @@
     });
 
     const totalPanier = ref(0);
-    const allProducts = ref();
+    const emit = defineEmits();
 
     const visibly = (e) => {
         if(( !e.target.farthestViewportElement && e.target.className === 'p-sidebar-mask p-component-overlay p-component-overlay-enter p-sidebar-visible p-sidebar-right')
@@ -95,23 +101,24 @@
 
     const getTotalPrice = () => {
         let total = 0;
-        allProducts.value.forEach(item => {
+        props.products.forEach(item => {
             total += item.quantity * item.price;
         })
         totalPanier.value = formatPrice(total);
+        console.log(props.products)
     }
 
     const deleteProduct = (product) => {
-       allProducts.value =  allProducts.value.filter(item => item.id !== product.id);
-       localStorage.setItem('babawishList', JSON.stringify(allProducts.value));
+       emit('delete-product', product.id);
        getTotalPrice();
-       bus.emit('updateProduct');
+
     }
 
-    onMounted(() => {
-        allProducts.value = JSON.parse( localStorage.getItem('babawishList'));
-        getTotalPrice();
+    onUpdated(()=>{
+        getTotalPrice();  
+
     })
+
 </script>
 
 <style scoped src="./style.css"></style>

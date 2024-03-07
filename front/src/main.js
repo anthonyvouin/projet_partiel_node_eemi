@@ -9,7 +9,6 @@ import Tooltip from 'primevue/tooltip';
 import ToastService from 'primevue/toastservice';
 import DialogService from 'primevue/dialogservice';
 
-
 export const bus = new TinyEmitter();
 
 const app = createApp(App)
