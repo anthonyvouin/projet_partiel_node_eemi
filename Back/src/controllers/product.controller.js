@@ -6,6 +6,7 @@ import path from "path";
 import { randomBytes } from "crypto";
 import { rename } from "fs/promises";
 
+
 // controller pour recuperer tous les produits
 export async function getAllProducts(req, res) {
   try {
@@ -86,6 +87,8 @@ export async function getProductsByCategory(req, res) {
     res.status(500).json({ error: "Internal server error" });
   }
 }
+
+
 
 // Catégories autorisées
 const allowedCategories = ["electronics", "diamond", "jewelery", "men's clothing", "women's clothing"];
@@ -233,10 +236,34 @@ export async function getAllProductsDB(req, res) {
   }
 }
 
+// Controller pour reucperer une produit en fonction de son id
+export async function getProductByIdDb(req, res) {
+  const productId = req.params.id;
+
+  try {
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return res.status(404).json({ error: "Produit non trouvé." });
+    }
+
+    res.status(200).json({ product });
+  } catch (error) {
+    console.error("Erreur lors de la récupération du produit :", error);
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la récupération du produit." });
+  }
+}
+
+
 export default {
   getAllProducts,
   getProductById,
   getProductsByCategory,
   createProduct,
-  deleteProduct, updateProduct, getAllProductsDB
+  deleteProduct,
+  updateProduct,
+  getAllProductsDB,
+  getProductByIdDb,
 };

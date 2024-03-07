@@ -3,9 +3,12 @@ import {
   createProduct,
   getAllProducts,
   getProductById,
-  getProductsByCategory, 
-  deleteProduct, updateProduct,
-  getAllProductsDB
+  getProductsByCategory,
+  deleteProduct,
+  updateProduct,
+  getAllProductsDB,
+  getProductByIdDb,
+  
 } from "../controllers/product.controller.js";
 
 const router = express.Router();
@@ -18,7 +21,10 @@ router.get("/get-product-by-category/:category", getProductsByCategory);
 
 // Appel des routes products bdd
 router.post("/create", createProduct);
-router.get("/get-all-productsDb",getAllProductsDB);
+
+router.get("/get-all-productsDb", getAllProductsDB);
+router.get("/products-by-id/:id", getProductByIdDb);
+
 router.delete("/:id", deleteProduct);
 router.put("/:id", updateProduct);
 
