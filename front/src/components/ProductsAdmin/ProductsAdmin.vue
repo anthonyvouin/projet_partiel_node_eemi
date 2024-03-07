@@ -28,7 +28,7 @@
     import SideBarProduct from '../SideBarProduct/SideBarProduct.vue'
     import Toast from 'primevue/toast';
 
-    const visibleSideBarProduct = ref(true);
+    const visibleSideBarProduct = ref(false);
     import {ref } from 'vue';
     import { bus } from '@/main.js';
     import AddProduct from '../AddProduct/AddProduct.vue';
