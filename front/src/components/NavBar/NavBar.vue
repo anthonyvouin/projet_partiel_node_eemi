@@ -4,8 +4,18 @@
             <img alt="logo" class="ml-1 logo" src="../../assets/logo.png" />
         </RouterLink>
         <Search></Search>
-        <Button icon="pi pi-ellipsis-v" rounded class="background-primary-dark mr-1" @click="toggle" />
-        <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" :pt="{icon:{class:'mr-1'}, content:{class:'padding-10px'}}" />
+        <Button icon="pi pi-ellipsis-v" 
+            rounded 
+            class="background-primary-dark mr-1"
+            @click="toggle" />
+        <Menu ref="menu" 
+        id="overlay_menu" 
+        :model="items" 
+        :popup="true" 
+        :pt="{
+            icon:{class:'mr-1'}, 
+            content:{class:'padding-10px'}
+        }" />
     </nav>
 </template>
 
@@ -43,7 +53,6 @@
 const toggle = (event) => {
     menu.value.toggle(event);
 };
-    //material-symbols-outlineds
 </script>
 
 <style scoped src="./style.css"></style>

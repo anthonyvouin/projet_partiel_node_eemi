@@ -16,10 +16,8 @@
                 <template #footer>
                     <div class="flex justify-space-between align-items-center mb-10px mt-2">
                         <p class="ml-10px">{{item.price}} €</p>
-                        <Button class="padding-5px mr-10px" 
+                        <Button class="padding-5px mr-10px background-action-outlined" 
                         label="Détail" 
-                        severity="info" 
-                        outlined 
                         @click="getDetails(item)"/>
                     </div>
                 </template>
@@ -27,8 +25,7 @@
         </div>  
         <DynamicDialog />
         <Button type="button"
-        class="padding-10px shopCard" 
-        severity="info"
+        class="padding-10px shopCard background-action" 
         rounded 
         icon="pi pi-shopping-cart"
         iconClass="mr-1"

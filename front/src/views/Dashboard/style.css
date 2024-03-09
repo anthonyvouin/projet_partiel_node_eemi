@@ -1,0 +1,12 @@
+.menu-dashboard{
+    display: none !important;
+    position: static;
+    @media screen and (min-width: 900px) {
+        display: block;
+        width: 240px;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+    }
+
+}

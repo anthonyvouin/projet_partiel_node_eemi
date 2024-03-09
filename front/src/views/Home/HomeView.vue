@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="background-page">
     <header>
       <NavBar></NavBar>
     </header>

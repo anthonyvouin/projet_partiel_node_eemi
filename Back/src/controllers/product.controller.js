@@ -227,7 +227,7 @@ export async function updateProduct(req, res) {
 export async function getAllProductsDB(req, res) {
   try {
     const products = await Product.find();
-    res.status(200).json({ products });
+    res.status(200).json(products);
   } catch (error) {
     console.error("Erreur lors de la récupération des produits :", error);
     res

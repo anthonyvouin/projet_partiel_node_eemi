@@ -1,7 +1,7 @@
 <template>
         <InputGroup style="width: 50%;">
             <InputText placeholder="Rechercher..." style="padding: 10px" @input="emitValue" v-model="valueToSend"/>
-            <Button icon="pi pi-search" severity="info" />
+            <Button icon="pi pi-search" class="background-action" />
         </InputGroup>
 
 </template>

@@ -9,8 +9,10 @@ export const routesApp = {
     contact:'/api/contact/send-email',
     product:{
         allProductsApi:'/api/product/get-all-products',
+        allProductsBabaWish:'/api/product/get-all-productsDb',
         productByIdApi: '/api/product/get-product-by-id/',
-        createProduct: '/api/product/create'
+        createProduct: '/api/product/create',
+        deleteProduct: '/api/product/'
 
     }
 }

@@ -4,15 +4,15 @@
         position="right" 
         :pt="{
             mask:{onclick:visibly}, 
-            header:{class:'primary-color flex justifiy-center align-items-center height-50px white padding-10px'},
+            header:{class:'background-action border-slider color-secondary flex justifiy-center align-items-center height-50px white padding-10px'},
             closeicon:{class:'white'},
             closeButton:{class:' focus-sidebar-close-button'}}"
         class="width-100 width-desktop-50 max-width-desktop-500px">
 
         <template #header>
-            <p class="text-center width-100 primary-color">Mon panier</p>
+            <p class="text-center width-100">Mon panier</p>
         </template>
-            <div class="padding-10px">
+            <div class="padding-10px background-action min-height-100">
                 <p class='mb-1'>Total : {{ totalPanier }} € </p>
                 <div class="mb-4">
                     <div class="flex justify-space-between padding-10px">
@@ -65,9 +65,8 @@
                 <div class="sidebar-footer">
                     <Button icon="pi pi-box"
                         iconClass="mr-1"
-                        outlined 
                         severity="info" 
-                        class="padding-5px" 
+                        class="padding-5px background-action-outlined" 
                         label="Commander"
                         @click="order()"
                     />
