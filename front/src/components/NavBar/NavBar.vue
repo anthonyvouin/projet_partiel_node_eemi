@@ -27,7 +27,7 @@
     import Menu from 'primevue/menu';
     import { bus } from '@/main.js';
     const sideBar = () => {
-        bus.emit('sidebar')
+        bus.emit('open-side-bar', {title:'Nous contacter', step:'mail'})
     }
 
     const menu = ref();

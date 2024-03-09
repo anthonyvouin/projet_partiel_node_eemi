@@ -1,18 +1,6 @@
 <template>
-    <Sidebar v-model:visible="props.visible" 
-    position="right" 
-    :pt="{
-        mask:{onclick:visibly}, 
-        header:{class:'primary-color flex justifiy-center align-items-center height-50px white padding-10px'},
-        closeicon:{class:'white'},
-        closeButton:{class:' focus-sidebar-close-button'}}"
-    class="width-100 width-desktop-50 max-width-desktop-500px"
-    >
-
-    <template #header>
-     <p class="text-center width-100 primary-color">Nous contacter</p>
-    </template>
-    <div class="padding-10px">
+    <div>
+        <div class="padding-10px">
         <InputText v-model="firstname" placeholder="Prénom" class="padding-10px width-100 mt-2" :invalid="errorfirstname"/> 
         <small v-if="errorfirstname" class="color-red">Le champs prénom ne doit pas être vide.</small>    
 
@@ -30,35 +18,31 @@
 
         <Editor v-model="message" editorStyle="height: 320px" class="mt-1" :invalid="errormessage"/>
         <small v-if="errormessage" class="color-red">Le corps du message ne doit pas être vide.</small>  
-    </div>
+        </div>
     
-    <div class="flex row-reverse padding-10px mt-1">
-        <Button icon="pi pi-check" 
-        severity="info"  
-        label="Envoyer"  
-        class="padding-10px" 
-        raised :pt="{icon:{class:'mr-1'}}" 
-        @click="sendMail()"/>
-    </div>
-  
-    </Sidebar>
+        <div class="flex row-reverse padding-10px mt-1">
+            <Button icon="pi pi-check" 
+            severity="info"  
+            label="Envoyer"  
+            class="padding-10px" 
+            raised :pt="{icon:{class:'mr-1'}}" 
+            @click="sendMail()"/>
+        </div>
 
+    </div>
 </template>
 
 <script setup>  
     import InputGroup from 'primevue/inputgroup';
     import InputText from 'primevue/inputtext';
     import Button from 'primevue/button';
-    import Sidebar from 'primevue/sidebar';
-    import {ref, defineProps } from 'vue';
-    import { bus } from '@/main.js';
+    import {ref, defineEmits } from 'vue';
     import Editor from 'primevue/editor';
     import { useToast } from "primevue/usetoast";
     import { host, port, routesApp } from '@/conf/route-app';
-import { clickOnCloseButton } from '@/functions/functions';
 
     const toast = useToast();
-    
+    const emit = defineEmits();
     const email = ref('');
     const firstname = ref('');
     const lastname = ref('');
@@ -71,16 +55,7 @@ import { clickOnCloseButton } from '@/functions/functions';
     const errorsubject = ref(false);
     const errormessage= ref(false);
 
-    const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-    const props = defineProps({
-        visible: Boolean,
-    });
-    
-    const visibly = (e) => {
-        if(clickOnCloseButton(e) ){
-            bus.emit('sidebar');
-        }
-    }
+    const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;    
 
     const isValidEmail = () =>{
         return regexEmail.test(email.value);
@@ -167,7 +142,7 @@ import { clickOnCloseButton } from '@/functions/functions';
             try{
                 await fetch(url, options);
                 toast.add({ severity: 'success', summary: 'Email', detail: `Votre message s'est bien envoyé`, life: 3000 });
-                bus.emit('sidebar');
+                emit('close-sidebar', 'close');
                 resetVariable();
             }catch(e){
                 toast.add({ severity: 'error', summary: 'Email', detail: `Une erreur s'est produite`, life: 3000 });

@@ -1,111 +1,85 @@
 <template>
     <div>
-        <Sidebar v-model:visible="props.visible" 
-        position="right" 
-        :pt="{
-            mask:{onclick:visibly}, 
-            header:{class:'background-action border-slider color-secondary flex justifiy-center align-items-center height-50px white padding-10px'},
-            closeicon:{class:'white'},
-            closeButton:{class:' focus-sidebar-close-button'}}"
-        class="width-100 width-desktop-50 max-width-desktop-500px">
+        <div class="padding-10px background-action min-height-100">
+            <p class='mb-1'>Total : {{ totalPanier }} € </p>
+            <div class="mb-4">
+                <div class="flex justify-space-between padding-10px">
+                    <p class="width-25">Produits</p>
+                    <p class="width-25 ml-1">Prix</p>
+                    <p class="width-25">Quantité</p>
+                    <p>Actions</p>
+                </div>
+                <Card  v-for="(item, index) in products" 
+                    :key="index" 
+                    class="padding-10px mb-10px">
+                    <template #content>
+                        <div class="flex align-items-center justify-space-between">
+                            <img :src="item.image" 
+                            @click="getDetails(item)"
+                            class="sidebar-img width-25 cursor-pointer" 
+                            alt="">
 
-        <template #header>
-            <p class="text-center width-100">Mon panier</p>
-        </template>
-            <div class="padding-10px background-action min-height-100">
-                <p class='mb-1'>Total : {{ totalPanier }} € </p>
-                <div class="mb-4">
-                    <div class="flex justify-space-between padding-10px">
-                        <p class="width-25">Produits</p>
-                        <p class="width-25 ml-1">Prix</p>
-                        <p class="width-25">Quantité</p>
-                        <p>Actions</p>
-                    </div>
-                    <Card  v-for="(item, index) in props.products" 
-                        :key="index" 
-                        class="padding-10px mb-10px">
-                        <template #content>
-                            <div class="flex align-items-center justify-space-between">
-                                <img :src="item.image" 
-                                @click="getDetails(item)"
-                                class="sidebar-img width-25 cursor-pointer" 
-                                alt="">
-
-                                <p class="width-25 ml-1"> {{ getPrice(item.price, item.quantity) }} €</p>
-                                
-                                <InputNumber v-model="item.quantity"
-                                    inputId="horizontal-buttons" 
-                                    inputClass="text-center width-60px"
-                                    showButtons 
-                                    buttonLayout="horizontal"
-                                    class="mr-1"
-                                    :min="1" 
-                                    :step="1">
-                                    <template #incrementbuttonicon>
-                                        <span class="pi pi-plus padding-10px" @click="getTotalPrice()" />
-                                    </template>
-                                    <template #decrementbuttonicon>
-                                        <span class="pi pi-minus" @click="getTotalPrice()" />
-                                    </template>
-                                </InputNumber>
-                                <div>
-                                    <Button icon="pi pi-trash" 
-                                    outlined 
-                                    severity="danger" 
-                                    class="padding-5px width-100" 
-                                    @click="deleteProduct(item)"
-                                    ></Button>
-                                </div>
+                            <p class="width-25 ml-1"> {{ getPrice(item.price, item.quantity) }} €</p>
+                            
+                            <InputNumber v-model="item.quantity"
+                                inputId="horizontal-buttons" 
+                                inputClass="text-center width-60px"
+                                showButtons 
+                                buttonLayout="horizontal"
+                                @click="getTotalPrice()"
+                                class="mr-1"
+                                :min="1" 
+                                :step="1">
+                                <template #incrementbuttonicon>
+                                    <span class="pi pi-plus padding-10px"  />
+                                </template>
+                                <template #decrementbuttonicon>
+                                    <span class="pi pi-minus" />
+                                </template>
+                            </InputNumber>
+                            <div>
+                                <Button icon="pi pi-trash" 
+                                outlined 
+                                severity="danger" 
+                                class="padding-5px width-100" 
+                                @click="deleteProduct(item)"
+                                ></Button>
                             </div>
+                        </div>
 
-                        </template>
-                    </Card>
-                </div>
-
-                <div class="sidebar-footer">
-                    <Button icon="pi pi-box"
-                        iconClass="mr-1"
-                        severity="info" 
-                        class="padding-5px background-action-outlined" 
-                        label="Commander"
-                        @click="order()"
-                    />
-                </div>
-
+                    </template>
+                </Card>
             </div>
-        </Sidebar>
+
+            <div class="sidebar-footer">
+                <Button icon="pi pi-box"
+                    iconClass="mr-1"
+                    severity="info" 
+                    class="padding-5px background-action-outlined" 
+                    label="Commander"
+                    @click="order()"
+                />
+            </div>
+        </div>
     </div>
-    
-    
 </template>
 
 <script setup>
     import { bus } from '@/main';
-    import Sidebar from 'primevue/sidebar';
     import Card from 'primevue/card';
-    import {defineProps, ref, defineEmits, onUpdated, defineAsyncComponent } from 'vue';
+    import { ref, defineEmits, defineAsyncComponent, onMounted } from 'vue';
     import Button from 'primevue/button';
     import InputNumber from 'primevue/inputnumber';
     import { formatPrice } from "@/pipe/formatNumber";
     import { useDialog } from 'primevue/usedialog';
     import { host, port, routesApp } from '@/conf/route-app';
-import { clickOnCloseButton } from '@/functions/functions';
 
-    const props = defineProps({
-        visible: Boolean,
-        products: Array
-    });
 
     const totalPanier = ref(0);
+    const products = ref();
     const emit = defineEmits();
     const dialog = useDialog();
     const DetailsProducts =  defineAsyncComponent(() => import('../../DetailsProducts/DetailsProducts.vue'));
-
-    const visibly = (e) => {
-        if(clickOnCloseButton(e) ){
-            bus.emit('sidebar-shop');
-        }
-    }
 
     const getPrice = (price, quantity) => {
         return formatPrice(price * quantity);
@@ -113,16 +87,17 @@ import { clickOnCloseButton } from '@/functions/functions';
 
     const getTotalPrice = () => {
         let total = 0;
-        props.products.forEach(item => {
+        products.value.forEach(item => {
             total += item.quantity * item.price;
         })
         totalPanier.value = formatPrice(total);
-        console.log(props.products)
+        localStorage.setItem('babawishList', JSON.stringify(products.value));
     }
 
-    const deleteProduct = (product) => {
-       emit('delete-product', product.id);
-       getTotalPrice();
+    const deleteProduct = (deleteProduct) => {
+        products.value = products.value.filter(item => item.id !== deleteProduct.id);
+        bus.emit('updateProductList');
+        getTotalPrice();
 
     }
 
@@ -160,10 +135,17 @@ import { clickOnCloseButton } from '@/functions/functions';
         });
     }
 
-    onUpdated(()=>{
-        getTotalPrice();  
-    });
+    onMounted(() => {
+        const savedProducts = localStorage.getItem('babawishList');
+        if(savedProducts){
+            products.value = JSON.parse(savedProducts);
+            getTotalPrice()
+        }
+    })
 
+    const order = () => {
+        emit('close-sidebar', 'close');
+    }
 
 
 </script>

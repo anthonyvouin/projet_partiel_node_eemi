@@ -33,7 +33,7 @@
         @click="sideBarShop()"  
         />
 
-        <SideBarShop :visible="visibilitySideBarShop" :products="savedProduct" @delete-product="deleteProducts($event)"></SideBarShop>
+        <!-- <SideBarShop :visible="visibilitySideBarShop" :products="savedProduct" @delete-product="deleteProducts($event)"></SideBarShop> -->
     </div>  
 </template>
 
@@ -71,7 +71,7 @@ onMounted(async() => {
 })
 
 const  sideBarShop = () => {
-    visibilitySideBarShop.value = !visibilitySideBarShop.value
+    bus.emit('open-side-bar', {title:'Panier', step:'shop'})
 }
 
 const getProductsList = async () => {
@@ -150,24 +150,14 @@ const getQuickShop = () => {
     numberSavedProduct.value =  numberSavedProduct.value.toString()
 }
 
-const deleteProducts = (e) => {
-    savedProduct.value = savedProduct.value.filter(item => item.id !== e);
-    localStorage.setItem('babawishList', JSON.stringify(savedProduct.value));
-    getQuickShop();
-}
 
 bus.on('search', (data)=>{
     searchProduct.value = products.value.slice();
     searchProduct.value = searchProduct.value.filter(objet => objet.title.toLowerCase().includes(data.toLowerCase()));
 })
 
-bus.on('updateProduct', (data)=>{
+bus.on('updateProductList', (data)=>{
     getQuickShop();
-})
-
-bus.on('sidebar-shop', (data)=>{
-    visibilitySideBarShop.value = !visibilitySideBarShop.value
-    localStorage.setItem('babawishList', JSON.stringify(savedProduct.value));
 })
 
 </script>
