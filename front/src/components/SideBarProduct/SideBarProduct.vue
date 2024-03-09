@@ -140,7 +140,7 @@
 
     const formIsValid = () => {
         if(!title.value.trim() 
-        || !description.value.name
+        || !description.value
         || !selectedCategory.value
         || !price.value
         || !file
@@ -165,7 +165,7 @@
             errorCategory.value = true;
         }
 
-        if(!price.value || !price.value.trim()){
+        if(!price.value){
             errorPrice.value = true;
         }
 

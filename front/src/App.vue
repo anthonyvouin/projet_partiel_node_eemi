@@ -2,6 +2,7 @@
   <div>
   <RouterView />
   <SideBarMail :visible="visible"></SideBarMail>
+  <ToastBaba></ToastBaba>
   </div>
 
 
@@ -11,6 +12,7 @@
   import { RouterLink, RouterView } from 'vue-router'
   import NavBar from './components/NavBar/NavBar.vue';
   import SideBarMail from './components/SideBarMail/SideBarMail.vue';
+  import ToastBaba from './components/ToastBaba/ToastBaba.vue'
   import { bus } from '@/main.js';
   import { ref } from 'vue';
 

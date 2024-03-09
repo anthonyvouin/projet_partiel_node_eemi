@@ -3,30 +3,14 @@
         <AddProduct :visible="visibleSideBarProduct" 
             @update-visibility-product-sidebar="handleVisibilityProductSidebar()">
         </AddProduct>
-        <SideBarProduct :visible="visibleSideBarProduct"></SideBarProduct>
-        <Toast  class="max-width-90" :pt="{container:{class:'padding-10px'}}" >
-            <template #message="slotProps">
-                <div class="flex column align-items-start" style="flex: 1">
-                    <div class="flex align-items-center ">
-                        <p class="pi pi-info-circle pr-10px"></p>
-                        <span>{{ slotProps.message.summary }}</span>
-                    </div>
-                    <div>{{ slotProps.message.detail }}</div>
-                </div>
-            </template>
-            <template #closeicon>
-                <div>
-                    <span class="pi pi-times"></span>
-                </div>
-            </template>
-        </Toast>
+        <SideBarProduct :visible="visibleSideBarProduct"></SideBarProduct>       
     </div>
 </template>
 
 <script setup>
     import Button from 'primevue/button';
     import SideBarProduct from '../SideBarProduct/SideBarProduct.vue'
-    import Toast from 'primevue/toast';
+    import ToastBaba from '../ToastBaba/ToastBaba.vue'
 
     const visibleSideBarProduct = ref(false);
     import {ref } from 'vue';
