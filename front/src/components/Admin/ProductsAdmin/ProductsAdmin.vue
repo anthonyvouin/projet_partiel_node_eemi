@@ -9,14 +9,13 @@
 </template>
 
 <script setup>
-    import Button from 'primevue/button';
-    import SideBarProduct from '../SideBarProduct/SideBarProduct.vue'
+    import SideBarProduct from '../../SideBars/SideBarProduct/SideBarProduct.vue';
     import ProductListAdmin from '../ProductListAdmin/ProductListAdmin.vue';
-
-    const visibleSideBarProduct = ref(false);
     import {ref } from 'vue';
     import { bus } from '@/main.js';
     import AddProduct from '../AddProduct/AddProduct.vue';
+
+    const visibleSideBarProduct = ref(false);
 
     const handleVisibilityProductSidebar = () => {
         visibleSideBarProduct.value = !visibleSideBarProduct.value;

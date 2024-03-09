@@ -55,6 +55,7 @@
     import Editor from 'primevue/editor';
     import { useToast } from "primevue/usetoast";
     import { host, port, routesApp } from '@/conf/route-app';
+import { clickOnCloseButton } from '@/functions/functions';
 
     const toast = useToast();
     
@@ -76,11 +77,7 @@
     });
     
     const visibly = (e) => {
-        if(( !e.target.farthestViewportElement && e.target.className === 'p-sidebar-mask p-component-overlay p-component-overlay-enter p-sidebar-visible p-sidebar-right')
-        ||(e.target.farthestViewportElement && e.target.farthestViewportElement.classList.value === 'p-icon p-sidebar-close-icon white')
-        || (!e.target.farthestViewportElement && e.target.className === 'p-icon p-sidebar-close-icon white')
-        || (!e.target.farthestViewportElement && e.target.className === 'p-sidebar-close p-sidebar-icon p-link focus-sidebar-close-button')
-        ||(!e.target.farthestViewportElement && e.target.classList.value === 'p-icon p-sidebar-close-icon white') ){
+        if(clickOnCloseButton(e) ){
             bus.emit('sidebar');
         }
     }

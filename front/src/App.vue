@@ -14,7 +14,7 @@
 <script setup>
   import { RouterLink, RouterView } from 'vue-router'
   import NavBar from './components/NavBar/NavBar.vue';
-  import SideBarMail from './components/SideBarMail/SideBarMail.vue';
+  import SideBarMail from './components/SideBars/SideBarMail/SideBarMail.vue';
   import ToastBaba from './components/ToastBaba/ToastBaba.vue'
   import ConfirmDeleteProduct from './components/Admin/ConfirmDeleteProduct/ConfirmDeleteProduct.vue';
   import { bus } from '@/main.js';

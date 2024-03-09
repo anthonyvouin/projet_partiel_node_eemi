@@ -89,6 +89,7 @@
     import { formatPrice } from "@/pipe/formatNumber";
     import { useDialog } from 'primevue/usedialog';
     import { host, port, routesApp } from '@/conf/route-app';
+import { clickOnCloseButton } from '@/functions/functions';
 
     const props = defineProps({
         visible: Boolean,
@@ -98,14 +99,10 @@
     const totalPanier = ref(0);
     const emit = defineEmits();
     const dialog = useDialog();
-    const DetailsProducts =  defineAsyncComponent(() => import('../DetailsProducts/DetailsProducts.vue'));
+    const DetailsProducts =  defineAsyncComponent(() => import('../../DetailsProducts/DetailsProducts.vue'));
 
     const visibly = (e) => {
-        if(( !e.target.farthestViewportElement && e.target.className === 'p-sidebar-mask p-component-overlay p-component-overlay-enter p-sidebar-visible p-sidebar-right')
-        ||(e.target.farthestViewportElement && e.target.farthestViewportElement.classList.value === 'p-icon p-sidebar-close-icon white')
-        || (!e.target.farthestViewportElement && e.target.className === 'p-icon p-sidebar-close-icon white')
-        || (!e.target.farthestViewportElement && e.target.className === 'p-sidebar-close p-sidebar-icon p-link focus-sidebar-close-button')
-        ||(!e.target.farthestViewportElement && e.target.classList.value === 'p-icon p-sidebar-close-icon white') ){
+        if(clickOnCloseButton(e) ){
             bus.emit('sidebar-shop');
         }
     }
@@ -163,11 +160,8 @@
         });
     }
 
-
-
     onUpdated(()=>{
         getTotalPrice();  
-
     });
 
 

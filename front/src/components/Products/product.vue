@@ -45,7 +45,7 @@ import { bus } from '@/main';
 import { useDialog } from 'primevue/usedialog';
 import DynamicDialog from 'primevue/dynamicdialog';
 import { useToast } from 'primevue/usetoast';
-import SideBarShop from '../SideBarShop/SideBarShop.vue'
+import SideBarShop from '../SideBars/SideBarShop/SideBarShop.vue'
 import { host, port, routesApp } from '@/conf/route-app';
 
 const toast = useToast();
