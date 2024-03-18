@@ -30,7 +30,6 @@
   const stepSideBar = ref();
 
   bus.on('open-side-bar', (data)=>{
-    console.log(data)
     stepSideBar.value = data.step;
     titleSideBar.value = data.title;
     visible.value = true

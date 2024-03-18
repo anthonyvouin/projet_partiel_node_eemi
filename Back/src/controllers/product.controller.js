@@ -98,10 +98,6 @@ export async function createProduct(req, res) {
   try {
     // Vérifier si la catégorie est autorisée
     if (!allowedCategories.includes(category)) {
-      // Supprimer le fichier image s'il existe
-      if (fs.existsSync(imagePath)) {
-        fs.unlinkSync(imagePath);
-      }
       return res
         .status(400)
         .json({ error: "La catégorie spécifiée n'est pas valide." });
@@ -193,8 +189,9 @@ export async function updateProduct(req, res) {
       const newImagePath = path.join(path.dirname(imagePath), randomName);
       console.log(imagePath)
       
-      // Renommer le fichier de la nouvelle image
+      // copier le fichier dans public/image
       await rename(imagePath, newImagePath);
+
       // Supprimer l'ancienne image si elle existe
       if (fs.existsSync(product.image)) {
           try {

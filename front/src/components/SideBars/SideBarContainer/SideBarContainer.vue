@@ -38,7 +38,6 @@
     const emit = defineEmits();
 
     const closeSideBar = (e) => {
-        console.log(e)
         if(props.step==='shop'){
             bus.emit('updateProductList')
         }

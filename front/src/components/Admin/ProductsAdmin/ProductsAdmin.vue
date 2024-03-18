@@ -34,7 +34,6 @@
         visibleSideBarProduct.value = !visibleSideBarProduct.value;
         if(data){
             selectedProduct.value = data;
-            console.log(selectedProduct.value)
         }else{
             selectedProduct.value = {}
         }
