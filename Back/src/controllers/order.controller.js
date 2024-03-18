@@ -60,6 +60,3 @@ export async function getAllOrders(req, res) {
       .json({ error: "Erreur lors de la récupération des commandes." });
   }
 }
-
-
-export default {createOrder, getAllOrders};

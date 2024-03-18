@@ -31,4 +31,3 @@ export async function sendEmail(req, res) {
   }
 }
 
-export default { sendEmail };

@@ -255,15 +255,3 @@ export async function getProductByIdDb(req, res) {
       .json({ error: "Erreur lors de la récupération du produit." });
   }
 }
-
-
-export default {
-  getAllProducts,
-  getProductById,
-  getProductsByCategory,
-  createProduct,
-  deleteProduct,
-  updateProduct,
-  getAllProductsDB,
-  getProductByIdDb,
-};

@@ -18,4 +18,3 @@ export async function getAllCategories(req, res) {
 
 // controller pour recuperer un produit par id
 
-export default { getAllCategories};
