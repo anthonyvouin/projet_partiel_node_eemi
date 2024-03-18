@@ -12,7 +12,8 @@ export const routesApp = {
         allProductsBabaWish:'/api/product/get-all-productsDb',
         productByIdApi: '/api/product/get-product-by-id/',
         createProduct: '/api/product/create',
-        deleteProduct: '/api/product/'
+        deleteProduct: '/api/product/',
+        updateProduct: '/api/product/'
 
     }
 }

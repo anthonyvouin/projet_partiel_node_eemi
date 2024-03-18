@@ -2,7 +2,7 @@
     <div class="padding-10px">
        <img :src="product.image" alt="" class="img-product mt-1">
        <div class="width-80 margin-0-auto">
-            <p class="mt-1 justify">{{ product.description }}</p>
+            <p class="mt-1 justify" v-html="product.description"></p>
             <p class="mt-2">Prix : 
                 <span class="bold">{{ getPrice() }} €</span>
             </p>
@@ -130,7 +130,7 @@ const addProduct = () => {
     }
    
     saveProduct(data);
-    bus.emit('updateProduct');
+    bus.emit('updateProductList');
 }
 
 const deleteProduct = () => {
@@ -151,7 +151,7 @@ const deleteProduct = () => {
         toast.title = product.value.title;
         toast.status = 'Remove';
         toast.toastMessage = `a été supprimé du panier.`;
-        bus.emit('updateProduct');
+        bus.emit('updateProductList');
     }
     dialogRef.value.close(toast);
 

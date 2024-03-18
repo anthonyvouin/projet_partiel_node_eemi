@@ -1,7 +1,8 @@
 @import 'primevue/resources/themes/aura-light-green/theme.css';
 @import 'primeicons/primeicons.css';
 @import './base.css';
-@import './size.css';
+@import './width.css';
+@import './height.css';
 @import './flex.css';
 @import './margin.css';
 @import './padding.css';

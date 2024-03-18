@@ -1,4 +1,4 @@
-import './assets/main.css'
+import './assets/css/main.css'
 
 import { createApp } from 'vue'
 import App from './App.vue'
@@ -10,6 +10,7 @@ import ToastService from 'primevue/toastservice';
 import DialogService from 'primevue/dialogservice';
 import ConfirmationService from 'primevue/confirmationservice';
 
+// pour passer des évenements d'un composant à l'autre (hors enfants/parents)
 export const bus = new TinyEmitter();
 
 const app = createApp(App)

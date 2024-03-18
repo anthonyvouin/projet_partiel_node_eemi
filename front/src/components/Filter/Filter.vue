@@ -30,6 +30,8 @@
     import Button from 'primevue/button';
     import Toast from 'primevue/toast';
     import { useToast } from 'primevue/usetoast';
+    import { getIconsByCategory } from '@/functions/functions';
+    
     const toast = useToast();
     const emit = defineEmits();
     const selectedCategory = ref({name: 'tous les produits'});
@@ -41,26 +43,11 @@
         const responseJson = await reponse.json();
         options.value.push({name: 'tous les produits', icon: 'package_2'})
         responseJson.forEach(element => {
-            const icon = getIconeFilter(element)
+            const icon = getIconsByCategory(element)
             const result = {name: element, icon}
             options.value.push(result)
         });
     })
-
-    const getIconeFilter = (name) => {
-        switch(name){
-            case 'electronics':
-                return 'computer';
-            case 'jewelery':
-                return 'diamond';
-            case `men's clothing`:
-                return 'face_6'
-            case `women's clothing`: 
-                return 'face_3';
-            default: 
-                return 'package_2';
-        } 
-    }
 
     const changeCategory = () =>{
         emit('changeCategory', selectedCategory.value);

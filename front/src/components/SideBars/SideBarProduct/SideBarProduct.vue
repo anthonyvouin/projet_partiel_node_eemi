@@ -10,7 +10,7 @@
             class="width-100 width-desktop-50 max-width-desktop-500px">
 
             <template #header>
-                <p class="text-center width-100 primary-color">Ajouter un produit</p>
+                <p class="text-center width-100 primary-color">{{titleSideBar}}</p>
             </template>
             <div class="padding-10px">
                 <InputText type="text" v-model="title" placeholder="Titre" class="padding-10px width-100 mt-2" :invalid="errorTitle"/>
@@ -57,7 +57,7 @@
 
                 <Button icon="pi pi-save" 
                 severity="info" 
-                label="Enregistrer" 
+                :label="btnMessage" 
                 class="padding-10px mt-2" 
                 iconClass="mr-1"
                 outlined
@@ -71,7 +71,7 @@
 <script setup>
     import { bus } from '@/main.js';
     import Sidebar from 'primevue/sidebar';
-    import {ref, defineProps } from 'vue';
+    import {ref, defineProps, watch } from 'vue';
     import InputText from 'primevue/inputtext';
     import Editor from 'primevue/editor';
     import InputNumber from 'primevue/inputnumber';
@@ -80,10 +80,12 @@
     import Button from 'primevue/button';
     import { host, port, routesApp } from '@/conf/route-app';
     import { useToast } from "primevue/usetoast";
-import { clickOnCloseButton } from '@/functions/functions';
+    import { clickOnCloseButton } from '@/functions/functions';
+
     const toast = useToast();
 
-
+    const titleSideBar= ref('Ajouter un produit');
+    const btnMessage = ref('Enregistrer')
     const title = ref('');
     const description = ref('');
     const price = ref(undefined);
@@ -108,6 +110,7 @@ import { clickOnCloseButton } from '@/functions/functions';
 
     const props = defineProps({
             visible: Boolean,
+            product: Object | null,
     });
 
     const visibly = (e) => {
@@ -140,7 +143,7 @@ import { clickOnCloseButton } from '@/functions/functions';
         || !description.value
         || !selectedCategory.value
         || !price.value
-        || !file
+        || (!props.product && !file)
         || !fileName.value 
        ){
             getError()
@@ -166,7 +169,7 @@ import { clickOnCloseButton } from '@/functions/functions';
             errorPrice.value = true;
         }
 
-        if(!file || !fileName.value){
+        if((!props.product && !file) || !fileName.value){
             errorFile.value = true;
         }
 
@@ -199,25 +202,54 @@ import { clickOnCloseButton } from '@/functions/functions';
             data.append('price', price.value );
             data.append('description', description.value );
             data.append('category', selectedCategory.value.name );
-            data.append('image', file.value );
+            if(file.value){
+                data.append('image', file.value );
+            }
+            
+            let url;
+            let options;
 
-            const url = `${host}${port}${routesApp.product.createProduct}`;
-
-            const options = {    
-                method: 'POST', 
-                body: data
-            };
+            if(!props.product){
+                url = `${host}${port}${routesApp.product.createProduct}`;
+                options = {    
+                    method: 'POST', 
+                    body: data
+                };
+            }else{
+                url = `${host}${port}${routesApp.product.updateProduct}${props.product._id}`;
+                options = {    
+                    method: 'PUT', 
+                    body: data
+                };
+            }
+          
 
             try{
                 await fetch(url, options);
                 toast.add({ severity: 'success', summary: 'Ajout Produit', detail: `Votre a été créer`, life: 3000 });
-                bus.emit('close-sidebar-product');
+                bus.emit('sidebarProduct');
+                bus.emit('add-product');
                 resetVariable();
             }catch(e){
                 toast.add({ severity: 'error', summary: 'Erreur ajout produit', detail: `Une erreur s'est produite`, life: 3000 });
             }
         }
     }
+
+    watch(() => props.visible, (newValue, oldValue) => { 
+        if(newValue && props.product){
+            title.value = props.product.title;
+            description.value = props.product.description;
+            thumbnail.value = props.product.image;
+            price.value = props.product.price;
+            selectedCategory.value = {name: props.product.category}
+            const url = "http://localhost:3000/public\\images\\5f27467881dd5d49.jpg";
+            fileName.value = url.split('/').pop().split('\\').pop();
+            titleSideBar.value = "Modifier un produit";
+            btnMessage.value = "Modifier"
+        }
+    });
+
 
 </script>
 <style scoped src="./style.css"></style>

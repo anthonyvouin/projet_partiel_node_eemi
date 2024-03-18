@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="padding-10px background-action min-height-100">
+        <div class="padding-10px background-action min-height-90">
             <p class='mb-1'>Total : {{ totalPanier }} € </p>
             <div class="mb-4">
                 <div class="flex justify-space-between padding-10px">

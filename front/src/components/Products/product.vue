@@ -3,8 +3,14 @@
         <div class="flex flex-wrap column row-desktop column-gap-10 container-card row-gap-20 ">
             <Card v-for="(item, index) in searchProduct" :key="index" class="width-300px flex column justify-space-between card" >
                 <template #title>
-                    <div class="text-center padding-5px" style="min-height: 128px;">
-                        {{ item.title }}
+                    <div class="flex padding-5px" style="min-height: 128px;">
+                        <div class="width-50px padding-10px">
+                            <span class="material-symbols-outlined">{{ getIconsByCategory(item.category) }}</span>
+                        </div>
+                        <div class="padding-10px">
+                            {{ item.title }}
+                        </div>
+                        
                     </div>
                 </template>
 
@@ -45,15 +51,14 @@ import { bus } from '@/main';
 import { useDialog } from 'primevue/usedialog';
 import DynamicDialog from 'primevue/dynamicdialog';
 import { useToast } from 'primevue/usetoast';
-import SideBarShop from '../SideBars/SideBarShop/SideBarShop.vue'
 import { host, port, routesApp } from '@/conf/route-app';
+import { getIconsByCategory, getProductsBabaWish } from '@/functions/functions';
 
 const toast = useToast();
 const DetailsProducts =  defineAsyncComponent(() => import('../DetailsProducts/DetailsProducts.vue'));
 const dialog = useDialog();
 const products = ref([]);
 const searchProduct = ref([]);
-const visibilitySideBarShop = ref(false)
 const savedProduct = ref([]);
 
 const numberSavedProduct = ref('')
@@ -75,6 +80,15 @@ const  sideBarShop = () => {
 }
 
 const getProductsList = async () => {
+   
+    await getApiProductList();
+    products.value = products.value.concat(await getProductsBabaWish());
+    searchProduct.value = products.value.slice();
+    orderBy();
+};
+
+
+const getApiProductList = async () => {
     let response;
     products.value = [];
     if(selectedCategory.value === 'tous les produits'){
@@ -83,10 +97,9 @@ const getProductsList = async () => {
         response =  await fetch(`http://localhost:3000/api/product/get-product-by-category/${selectedCategory.value}`);
     }
 
-    products.value  = await response.json();
-    searchProduct.value = products.value.slice();
-    orderBy();
-};
+    products.value =  await response.json();
+}
+
 
 watch(() => props.category, (newValue, oldValue) => { 
     selectedCategory.value = newValue;

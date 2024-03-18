@@ -6,6 +6,8 @@ import path from "path";
 import { randomBytes } from "crypto";
 import { rename } from "fs/promises";
 
+// Catégories autorisées
+const allowedCategories = ["electronics", "jewelery", "men's clothing", "women's clothing"];
 
 // controller pour recuperer tous les produits
 export async function getAllProducts(req, res) {
@@ -88,11 +90,6 @@ export async function getProductsByCategory(req, res) {
   }
 }
 
-
-
-// Catégories autorisées
-const allowedCategories = ["electronics", "jewelery", "men's clothing", "women's clothing"];
-
 // controller pour créer un new product
 export async function createProduct(req, res) {
   const { title, price, description, category } = req.body;
@@ -170,7 +167,7 @@ export async function deleteProduct(req, res) {
 export async function updateProduct(req, res) {
   const productId = req.params.id; // Récupérer l'ID du produit à mettre à jour
   const { title, price, description, category } = req.body;
-  const imagePath = req.file.path;
+  let imagePath;
 
   try {
     // Trouver le produit dans la base de données par son ID
@@ -182,34 +179,40 @@ export async function updateProduct(req, res) {
 
     // Vérifier si la catégorie est autorisée
     if (!allowedCategories.includes(category)) {
-      // Supprimer le fichier image s'il existe
-      if (fs.existsSync(imagePath)) {
-        fs.unlinkSync(imagePath);
-      }
       return res
         .status(400)
         .json({ error: "La catégorie spécifiée n'est pas valide." });
     }
 
-    // Supprimer l'ancienne image du dossier public/images si elle existe
-    if (fs.existsSync(product.imagePath)) {
-      fs.unlinkSync(product.imagePath);
+    if(req.file){
+
+      imagePath = req.file.path;
+
+      // Générer un nouveau nom d'image aléatoire
+      const randomName = randomBytes(8).toString("hex") + ".jpg";
+      const newImagePath = path.join(path.dirname(imagePath), randomName);
+      console.log(imagePath)
+      
+      // Renommer le fichier de la nouvelle image
+      await rename(imagePath, newImagePath);
+      // Supprimer l'ancienne image si elle existe
+      if (fs.existsSync(product.image)) {
+          try {
+            fs.unlinkSync(product.image);
+            console.log('Fichier supprimé avec succès.');
+        } catch (error) {
+            console.error('Erreur lors de la suppression du fichier :', error);
+        }
+      }
+      product.image = newImagePath;
     }
-
-    // Générer un nouveau nom d'image aléatoire
-    const randomName = randomBytes(8).toString("hex") + ".jpg";
-    const newImagePath = path.join(path.dirname(imagePath), randomName);
-
-    // Renommer le fichier de la nouvelle image
-    fs.renameSync(imagePath, newImagePath);
 
     // Mettre à jour les données du produit avec les nouvelles informations
     product.title = title;
     product.price = price;
     product.description = description;
     product.category = category;
-    product.imagePath = newImagePath;
-
+   
     // Enregistrer les modifications dans la base de données
     await product.save();
 

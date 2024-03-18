@@ -1,5 +1,5 @@
 <template>
-    <div class="min-height-100">
+    <div class="min-height-90">
         <div class="width-100 width-desktop-80 margin-0-auto mt-2 flex justify-space-between padding-10px bold">
             <p class="width-20">Image</p>
             <p class="width-20">Titre</p>
@@ -8,7 +8,7 @@
             <p>Actions</p>
         </div>
         <div class="width-100 width-desktop-80 margin-0-auto">
-            <Card v-for="(item, index) in products" :key="index" class="padding-10px mb-1" >
+            <Card v-for="(item, index) in props.products" :key="index" class="padding-10px mb-1" >
                 <template #content>
                     <div class="flex align-items-center justify-space-between">
                         <div class="width-20">
@@ -41,20 +41,24 @@
     
 </template>
 <script setup>
-    import { ref, onMounted } from "vue";
+    import { ref, defineEmits, defineProps } from "vue";
     import { host, port, routesApp } from '@/conf/route-app';
     import Card from 'primevue/card';
     import Menu from 'primevue/menu';
     import Button from 'primevue/button';
     import { useToast } from "primevue/usetoast";
-
     import { useConfirm } from "primevue/useconfirm";
+    import { bus } from '@/main.js';
 
-    const products = ref([]);
     const menu = ref();
     const confirm = useConfirm();
     const selectItem = ref();
     const toast = useToast();
+    const emit = defineEmits();
+
+    const props = defineProps({
+        products: Array
+    })
 
     const items = ref([
         {
@@ -77,23 +81,16 @@
 
     const toggle = (event, index) => {
         menu.value[index].toggle(event);
-        selectItem.value = products.value[index];
+        selectItem.value = props.products[index];
     };
 
-    const getProducts = async() =>{
-        const reponse = await fetch(`${host}${port}${routesApp.product.allProductsBabaWish}`);
-        products.value = await reponse.json();
 
-        products.value.map(e => {
-            if(e.image){
-                e.image = `${host}${port}/${e.image}`;
-            }
-        })
-    }
+    const edit = () => {
+        bus.emit('sidebarProduct', selectItem.value);
+    } 
 
-    onMounted(async() => {
-        getProducts()
-    })
+
+
 
     const confirmDelete = () => {
         confirm.require({
@@ -121,7 +118,7 @@
 
         try{
             await fetch(url, options);
-            getProducts();
+            emit('delete-product');
             toast.add({ severity: 'success', summary: 'Supression Produit', detail: `Le produit ${selectItem.value.title} a été supprimé`, life: 3000 });
         }catch(e){
             toast.add({ severity: 'error', summary: 'Erreur supression produit', detail: `Une erreur s'est produite`, life: 3000 });
