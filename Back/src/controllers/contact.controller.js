@@ -1,10 +1,17 @@
 import { Resend } from "resend";
+import dotenv from "dotenv";
 
-const resend = new Resend("re_PoBk2Fje_5k1XKpktEKqSE68MeBdJYJyk");
+//.env
+dotenv.config();
+
+// initialisation de l'objet Resend
+const resend = new Resend(process.env.API_KEY);
+
 
 export async function sendEmail(req, res) {
   const { firstName, lastName, email, subject, message } = req.body;
 
+  // Construction du contenu HTML de l'e-mail avec les données du formulaire
   const htmlBody = `
     <p>Nouveau message de contact:</p>
     <ul>
