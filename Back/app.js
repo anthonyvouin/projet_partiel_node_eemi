@@ -9,14 +9,23 @@ import cors from "cors";
 import multer from "multer";
 import fs from "fs";
 
+// Start server express
 const app = express();
 const port = 3000;
 
+// Base de données
 connectDB();
 
+// Faire  parser les corps de requête en JSON
 app.use(bodyParser.json());
+
+//  Middleware pour gérer les CORS
 app.use(cors());
+
+// Middleware pour parser les corps de requête encodés en URL
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Création du dossier pour stocker les images si celui-ci n'existe pas déjà
 
 const dossier = "./public/images";
 if (!fs.existsSync(dossier)) {
@@ -29,6 +38,7 @@ if (!fs.existsSync(dossier)) {
   });
 }
 
+// Configuration de Multer pour la gestion du stockage des fichiers
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, dossier);
@@ -43,6 +53,7 @@ const upload = multer({ storage: storage });
 // Middleware pour servir les fichiers statiques
 app.use("/public/images", express.static("public/images"));
 
+// Définition des routes 
 app.use("/api/product", upload.single("image"), productRoute);
 app.use("/api/category", categoryRoute);
 app.use("/api/contact", contactRoute);
