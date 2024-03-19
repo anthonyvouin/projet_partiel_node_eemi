@@ -1,9 +1,9 @@
 /* color palette from <https://github.com/vuejs/theme> */
 *{
-  --actions-color: #E0B86C;
+  --actions-color: #DDD0C8;
   --dark:#0a0f47;
-  --page:#f1efef;
-  --primary: #655635
+  --page:#DDD0C8;
+  --primary: #323232;
 }
 .white{
     color: white;
@@ -42,14 +42,14 @@
 }
 
 .background-action-outlined{
-  border: 1px solid var(--actions-color);
+  border: 1px solid var(--primary);
   background-color: transparent;
-  color:var(--actions-color) ;
+  color:var(--primary) ;
   transition: 0.2s ease-in-out;
 }
 
 .background-action-outlined:hover{
-  background-color: var(--actions-color) ;
+  background-color: var(--primary) ;
   color: white;
 }
 
@@ -62,7 +62,7 @@
 }
 
 .border-slider{
-  border: 1px solid #654321
+  border: 1px solid var(--primary)
 }
 
 .hover-dark:hover{

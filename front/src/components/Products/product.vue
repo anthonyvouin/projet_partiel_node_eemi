@@ -34,7 +34,7 @@
         </div>  
         <DynamicDialog />
         <Button type="button"
-        class="padding-10px shopCard background-action" 
+        class="padding-10px shopCard primary-color" 
         rounded 
         icon="pi pi-shopping-cart"
         iconClass="mr-1"

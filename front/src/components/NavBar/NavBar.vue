@@ -1,12 +1,12 @@
 <template>
-    <nav class="flex justify-space-between width-100 background-primary-dark height-70px align-items-center">
+    <nav class="flex justify-space-between width-100 primary-color height-70px align-items-center">
         <RouterLink to="/">
             <img alt="logo" class="ml-1 logo" src="../../assets/logo.png" />
         </RouterLink>
         <Search></Search>
         <Button icon="pi pi-ellipsis-v" 
             rounded 
-            class="background-primary-dark mr-1"
+            class="primary-color mr-1"
             @click="toggle" />
         <Menu ref="menu" 
         id="overlay_menu" 
