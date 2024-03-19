@@ -10,30 +10,31 @@ export async function createOrder(req, res) {
 
   for (const element of data) {
     let product;
-    
-    if(Number(element.productId)){
-      const response = await axios.get(`http://localhost:3000/api/product/get-product-by-id/${element.productId}`);
+
+    if (Number(element.productId)) {
+      const response = await axios.get(
+        `http://localhost:3000/api/product/get-product-by-id/${element.productId}`
+      );
       product = response.data;
-    }else{
+    } else {
       product = await Product.findById(element.productId);
-      
     }
 
-    if(product){
-      result.push( {
+    // Si le produit est trouvé, ajout des détails de commande
+    if (product) {
+      result.push({
         productId: element.productId,
-        image: product.image, 
+        image: product.image,
         quantity: element.quantity,
-        price: product.price * element.quantity, 
-      })
+        price: product.price * element.quantity,
+      });
     }
-
   }
 
+  // Création d'une nouvelle commande avec les détails de commande obtenus
   const order = new Order({
-    products: result
+    products: result,
   });
-
 
   try {
     await order.save();
@@ -48,7 +49,7 @@ export async function createOrder(req, res) {
   }
 }
 
-// Controller get all order
+// Controller get all order depuis la db
 export async function getAllOrders(req, res) {
   try {
     const orders = await Order.find();

@@ -9,13 +9,15 @@ import { rename } from "fs/promises";
 // Catégories autorisées
 const allowedCategories = ["electronics", "jewelery", "men's clothing", "women's clothing"];
 
+
+
 // controller pour recuperer tous les produits
 export async function getAllProducts(req, res) {
   try {
     const response = await axios.get("https://fakestoreapi.com/products");
     const productsData = response.data;
 
-    // Mapping des données pour créer un objet littéral pour chaque produit
+    // Mapping des données pour créer un objet pour chaque produit
     const products = productsData.map((product) => ({
       id: product.id,
       title: product.title,
@@ -90,7 +92,9 @@ export async function getProductsByCategory(req, res) {
   }
 }
 
-// controller pour créer un new product
+
+
+// controller pour créer un new product dbb
 export async function createProduct(req, res) {
   const { title, price, description, category } = req.body;
   const imagePath = req.file.path;
@@ -223,7 +227,7 @@ export async function updateProduct(req, res) {
   }
 }
 
-// Controller pour recuperer tous les produits 
+// Controller pour recuperer tous les produits dbb
 export async function getAllProductsDB(req, res) {
   try {
     const products = await Product.find();
@@ -253,5 +257,30 @@ export async function getProductByIdDb(req, res) {
     res
       .status(500)
       .json({ error: "Erreur lors de la récupération du produit." });
+  }
+}
+
+// Controller pour recuperer les produits en fonction d'une category
+export async function getProductsByCategoryDB(req, res) {
+  const category = req.params.category; // Récupérer la catégorie depuis les paramètres de la requête
+
+  try {
+    // Vérifier si la catégorie demandée est autorisée
+    if (!allowedCategories.includes(category)) {
+      return res
+        .status(400)
+        .json({ error: "La catégorie spécifiée n'est pas valide." });
+    }
+
+    // Récupérer les produits correspondant à la catégorie demandée depuis la base de données
+    const products = await Product.find({ category });
+
+    // Répondre avec les produits trouvés
+    res.status(200).json(products);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des produits par catégorie :", error);
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la récupération des produits par catégorie." });
   }
 }

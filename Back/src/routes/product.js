@@ -8,6 +8,7 @@ import {
   updateProduct,
   getAllProductsDB,
   getProductByIdDb,
+  getProductsByCategoryDB
   
 } from "../controllers/product.controller.js";
 
@@ -24,5 +25,7 @@ router.get("/get-all-productsDb", getAllProductsDB);
 router.get("/products-by-id/:id", getProductByIdDb);
 router.delete("/:id", deleteProduct);
 router.put("/:id", updateProduct);
+router.get("/category/:category", getProductsByCategoryDB);
+
 
 export default router;
