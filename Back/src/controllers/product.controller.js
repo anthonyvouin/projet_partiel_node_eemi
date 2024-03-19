@@ -5,6 +5,7 @@ import fs from "fs";
 import path from "path";
 import { randomBytes } from "crypto";
 import { rename } from "fs/promises";
+import { unlink } from "fs/promises"; // Importer la fonction unlink pour supprimer le fichier
 
 // Catégories autorisées
 const allowedCategories = ["electronics", "jewelery", "men's clothing", "women's clothing"];
@@ -97,21 +98,28 @@ export async function getProductsByCategory(req, res) {
 // controller pour créer un new product dbb
 export async function createProduct(req, res) {
   const { title, price, description, category } = req.body;
+
+  // Vérifier si un fichier image a été téléchargé
+  if (!req.file) {
+    return res.status(400).json({ error: "Aucune image n'a été téléchargée." });
+  }
+
   const imagePath = req.file.path;
 
   try {
     // Vérifier si la catégorie est autorisée
     if (!allowedCategories.includes(category)) {
+      // Supprimer l'image non valide
+      await unlink(imagePath);
+
       return res
         .status(400)
         .json({ error: "La catégorie spécifiée n'est pas valide." });
     }
 
-    // Générer un nom d'image aléatoire
     const randomName = randomBytes(8).toString("hex") + ".jpg";
     const imageNewPath = path.join(path.dirname(imagePath), randomName);
 
-    // Renommer le fichier si la catégorie est valide
     await rename(imagePath, imageNewPath);
 
     const newProduct = new Product({
@@ -122,10 +130,8 @@ export async function createProduct(req, res) {
       image: imageNewPath,
     });
 
-    // Enregistrer le produit dans la base de données
     await newProduct.save();
 
-    // Répondre avec le produit créé
     res.status(201).json(newProduct);
   } catch (error) {
     console.error("Erreur lors de la création du produit :", error);
