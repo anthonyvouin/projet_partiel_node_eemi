@@ -183,18 +183,29 @@ export async function updateProduct(req, res) {
 
     let imagePath;
 
-    if (req.file) {
-      imagePath = req.file.path;
+
 
       // Vérifier si la catégorie est autorisée
-      if (!allowedCategories.includes(category)) {
+    if (!allowedCategories.includes(category)) {
+        
+      if (req.file) {
+      imagePath = req.file.path;
+
         // Supprimer l'image non valide
         await unlink(imagePath);
-
+      }
         return res
           .status(400)
           .json({ error: "La catégorie spécifiée n'est pas valide." });
+      
       }
+    
+
+   
+    if (req.file) {
+
+      imagePath = req.file.path;
+
 
       // Générer un nouveau nom d'image aléatoire
       const randomName = randomBytes(8).toString("hex") + ".jpg";
