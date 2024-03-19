@@ -70,8 +70,9 @@ onMounted(() => {
 
    if(listProductSaved){
     const listSaved = JSON.parse(listProductSaved);
-    const productFind = listSaved.findIndex(item => item.id === product.value.id);
-
+    const productFind = listSaved.findIndex(item => item.id === product.value.id || item.id === product.value._id);
+    console.log(listSaved)
+    console.log(product.value)
     if(listSaved && productFind !== -1){
         quantity.value = listSaved[productFind].quantity;
         messageButton.value = 'Modifier';
@@ -122,7 +123,7 @@ const saveProduct = (data) =>{
 
 const addProduct = () => {
     const data = {
-        id: product.value.id,
+        id: product.value.id ? product.value.id : product.value._id,
         title: product.value.title,
         price: product.value.price,
         quantity: quantity.value,

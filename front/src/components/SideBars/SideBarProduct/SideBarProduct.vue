@@ -190,7 +190,9 @@
         price.value = undefined;
         file.value = undefined;
         thumbnail.value = undefined;
-        fileName.value = undefined
+        fileName.value = undefined;
+        titleSideBar.value = 'Ajouter un produit';
+        btnMessage.value = 'Enregistrer';
     }
 
     const save = async() => {
@@ -238,6 +240,7 @@
 
     watch(() => props.visible, (newValue, oldValue) => { 
         if(newValue && props.product){
+            console.log(props.product)
             title.value = props.product.title;
             description.value = props.product.description;
             thumbnail.value = props.product.image;

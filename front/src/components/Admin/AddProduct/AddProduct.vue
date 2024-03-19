@@ -4,7 +4,7 @@
             rounded
             label="Ajouter un produit" 
             iconClass="mr-1"
-            class="background-action mr-1 padding-13px" 
+            class="background-action mr-1 padding-13px mt-2" 
             @click="openSideBarProduct()" />
         </div>
     

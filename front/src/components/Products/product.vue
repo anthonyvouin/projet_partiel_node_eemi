@@ -15,8 +15,11 @@
                 </template>
 
                 <template #content>
-                    <img :src="item.image" 
+                    <div class="flex justify-center">
+                        <img :src="item.image" 
                     class="img-description">
+                    </div>
+
                 </template>
 
                 <template #footer>

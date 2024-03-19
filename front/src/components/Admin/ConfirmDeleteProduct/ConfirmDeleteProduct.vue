@@ -1,6 +1,7 @@
 <template>
     <div>
-        <ConfirmDialog group="confirmDelete"     :pt="{
+        <ConfirmDialog group="confirmDelete"
+            :pt="{
             header:{class:'background-action padding-10px white'}, 
             content:{class:'padding-20px'},
             closeButton:{class:'white hover-dark'},

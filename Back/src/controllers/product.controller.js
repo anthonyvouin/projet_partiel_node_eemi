@@ -251,7 +251,7 @@ export async function getProductByIdDb(req, res) {
       return res.status(404).json({ error: "Produit non trouvé." });
     }
 
-    res.status(200).json({ product });
+    res.status(200).json( product );
   } catch (error) {
     console.error("Erreur lors de la récupération du produit :", error);
     res

@@ -4,6 +4,7 @@
     :pt="{
         mask:{onclick:closeSideBar}, 
         header:{class:'primary-color flex justifiy-center align-items-center height-50px white padding-10px'},
+        content:{class:'background-action'},
         closeicon:{class:'white'},
         closeButton:{class:' focus-sidebar-close-button'}}"
     class="width-100 width-desktop-50 max-width-desktop-500px"

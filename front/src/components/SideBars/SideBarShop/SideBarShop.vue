@@ -1,6 +1,7 @@
 <template>
-    <div>
-        <div class="padding-10px background-action min-height-90">
+    <div class="min-height-90">
+        <p v-if="!products" class="flex align-items-center min-height-94 justify-center white">Vous n'avez pas sélectionnez de produits</p>
+        <div v-if="products" class="padding-10px ">
             <p class='mb-1'>Total : {{ totalPanier }} € </p>
             <div class="mb-4">
                 <div class="flex justify-space-between padding-10px">
@@ -143,8 +144,37 @@
         }
     })
 
-    const order = () => {
-        emit('close-sidebar', 'close');
+    const order = async() => {
+        const result = []
+        products.value.forEach(e => {
+            const product = {
+                productId: e.id,
+                quantity: e.quantity
+            }
+            result.push(product);
+        })
+
+        const url = `${host}${port}${routesApp.orders.create}`
+        const options = {    
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(result) 
+            };
+        try{
+            await fetch(url, options);
+            // toast.add({ severity: 'success', summary: 'Email', detail: `Votre message s'est bien envoyé`, life: 3000 });
+            localStorage.removeItem('babawishList')
+
+            bus.emit('updateProductList');
+            emit('close-sidebar', 'close');
+
+            // resetVariable();
+        }catch(e){
+            // toast.add({ severity: 'error', summary: 'Email', detail: `Une erreur s'est produite`, life: 3000 });
+        }
+      
     }
 
 

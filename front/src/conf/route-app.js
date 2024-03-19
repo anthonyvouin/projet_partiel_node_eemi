@@ -13,7 +13,12 @@ export const routesApp = {
         productByIdApi: '/api/product/get-product-by-id/',
         createProduct: '/api/product/create',
         deleteProduct: '/api/product/',
-        updateProduct: '/api/product/'
+        updateProduct: '/api/product/',
+        productById:'/api/product/products-by-id/'
 
+    },
+    orders:{
+        allOrders: '/api/order/get-all-order',
+        create: '/api/order/create'
     }
 }

@@ -8,7 +8,7 @@
         <small v-if="errorlastname" class="color-red">Le champs nom ne doit pas être vide.</small>    
 
         <InputGroup class="mt-1"> 
-            <Button icon="pi pi-at" severity="info"/>
+            <Button icon="pi pi-at" class="primary-color"/>
             <InputText id="email" v-model="email" placeholder="Email" class="padding-10px" :invalid="errorEmail" />  
         </InputGroup>
         <small v-if="errorEmail" class="color-red">Entrez un couriel valide.</small>   
@@ -20,11 +20,11 @@
         <small v-if="errormessage" class="color-red">Le corps du message ne doit pas être vide.</small>  
         </div>
     
-        <div class="flex row-reverse padding-10px mt-1">
+        <div class="sidebar-footer">
             <Button icon="pi pi-check" 
             severity="info"  
             label="Envoyer"  
-            class="padding-10px" 
+            class="padding-10px background-action-outlined" 
             raised :pt="{icon:{class:'mr-1'}}" 
             @click="sendMail()"/>
         </div>

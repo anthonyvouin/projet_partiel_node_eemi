@@ -41,6 +41,7 @@
 
     bus.on('add-product', async(data)=>{
         await handleRefreshProductList()
+        selectedProduct.value=undefined
     })
 
     onMounted(async() => {

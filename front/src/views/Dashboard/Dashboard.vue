@@ -27,7 +27,8 @@
                 content:{class:'padding-10px'},
                 menu:{style: 'position: fixed'}
                 }"/>
-            <ProductsAdmin class=" pt-1" :class="{'ml-2': !isMobile, 'padding-10px': isMobile}"></ProductsAdmin>
+            <ProductsAdmin v-if="step === 'products'"lass=" pt-1" :class="{'ml-2': !isMobile, 'padding-10px': isMobile}"></ProductsAdmin>
+            <Orders v-if="step === 'orders'"></Orders>
         </div>
        
     </div>
@@ -37,15 +38,17 @@
     import { ref, onMounted } from "vue";
     import Menu from 'primevue/menu';
     import ProductsAdmin from "@/components/Admin/ProductsAdmin/ProductsAdmin.vue";
+    import Orders from '@/components/Admin/Orders/Orders.vue'
     import Button from "primevue/button";
 
     const items = ref([
-        { label: 'Produits', icon: 'pi pi-plus', class:'padding-10px' },
-        { label: 'Commandes', icon: 'pi pi-search', class:'padding-10px'  },
-        { label: 'Utilisateurs', icon: 'pi pi-search', class:'padding-10px'  }
+        { label: 'Produits', icon: 'pi pi-plus', class:'padding-10px', command: (()=>changeStep('products'))},
+        { label: 'Commandes', icon: 'pi pi-search', class:'padding-10px',command: (()=>changeStep('orders'))  },
+        { label: 'Home', icon: 'pi pi-search', class:'padding-10px', url:'/'  }
     ]);
     const isMobile = ref(false);
     const menu = ref()
+    const step = ref('products')
 
     onMounted(() => {
         window.addEventListener('resize', handleResize);
@@ -63,5 +66,9 @@
     const toggle = (event) => {
     menu.value.toggle(event);
     };
+
+    const changeStep = (navigate) => {
+        step.value = navigate
+    }
 </script>
 <style scoped src="./style.css"></style>
