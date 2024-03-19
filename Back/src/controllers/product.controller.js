@@ -171,59 +171,53 @@ export async function deleteProduct(req, res) {
 
 //Controller update product bdd
 export async function updateProduct(req, res) {
-  const productId = req.params.id; // Récupérer l'ID du produit à mettre à jour
+  const productId = req.params.id;
   const { title, price, description, category } = req.body;
-  let imagePath;
 
   try {
-    // Trouver le produit dans la base de données par son ID
     const product = await Product.findById(productId);
 
     if (!product) {
       return res.status(404).json({ error: "Le produit n'a pas été trouvé." });
     }
 
-    // Vérifier si la catégorie est autorisée
-    if (!allowedCategories.includes(category)) {
-      return res
-        .status(400)
-        .json({ error: "La catégorie spécifiée n'est pas valide." });
-    }
+    let imagePath;
 
-    if(req.file){
-
+    if (req.file) {
       imagePath = req.file.path;
+
+      // Vérifier si la catégorie est autorisée
+      if (!allowedCategories.includes(category)) {
+        // Supprimer l'image non valide
+        await unlink(imagePath);
+
+        return res
+          .status(400)
+          .json({ error: "La catégorie spécifiée n'est pas valide." });
+      }
 
       // Générer un nouveau nom d'image aléatoire
       const randomName = randomBytes(8).toString("hex") + ".jpg";
       const newImagePath = path.join(path.dirname(imagePath), randomName);
-      console.log(imagePath)
-      
-      // copier le fichier dans public/image
+
+      // Déplacer le fichier vers le nouveau chemin
       await rename(imagePath, newImagePath);
 
       // Supprimer l'ancienne image si elle existe
       if (fs.existsSync(product.image)) {
-          try {
-            fs.unlinkSync(product.image);
-            console.log('Fichier supprimé avec succès.');
-        } catch (error) {
-            console.error('Erreur lors de la suppression du fichier :', error);
-        }
+        fs.unlinkSync(product.image);
       }
+
       product.image = newImagePath;
     }
 
-    // Mettre à jour les données du produit avec les nouvelles informations
     product.title = title;
     product.price = price;
     product.description = description;
     product.category = category;
-   
-    // Enregistrer les modifications dans la base de données
+
     await product.save();
 
-    // Répondre avec le produit mis à jour
     res.json({ message: "Le produit a été mis à jour avec succès.", product });
   } catch (error) {
     console.error("Erreur lors de la mise à jour du produit :", error);
