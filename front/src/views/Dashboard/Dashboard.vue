@@ -88,19 +88,6 @@
             items.value[1].class='padding-10px'
             items.value[2].class='padding-10px active'
         }
-        
-        // let getActiveClass = document.querySelectorAll('.active');
-        // console.log(getActiveClass)
-        // getActiveClass.forEach(e => {
-        //     e.classList.remove('active');
-        // })
-
-
-        // if(step.value ==='products'){
-        //     items.value[1].class='padding-10px active'
-        // }else if(step.value ==='orders'){
-        //     items.value[2].class='padding-10px active'
-        // }
-            }
+    }
 </script>
 <style scoped src="./style.css"></style>
