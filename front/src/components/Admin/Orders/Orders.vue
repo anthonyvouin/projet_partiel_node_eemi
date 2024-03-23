@@ -1,9 +1,14 @@
 <template>
-    <div class="min-height-100 width-100" v-if="orderList && orderList.orders">
-        <Card v-for="(order, index) in orderList.orders" 
+    <div class="min-height-100 width-100" 
+        v-if="orderList">
+        <Card v-for="(order, index) in orderList" 
             :key="index" 
             class="container-order">
-            <template #title> <p class="text-center background-action padding-10px white border-top-10px">Commande {{ index + 1 }}</p> </template>
+            <template #title> 
+                <p class="text-center background-dark padding-10px white border-top-10px">
+                    Commande {{ index + 1 }}
+                </p> 
+            </template>
             <template #content>
                 <div class="padding-20px flex align-items-center ">
                     <div class="all-products width-70" >
@@ -16,10 +21,13 @@
                                 <p>Prix unitaire: {{ item.price }} €</p>
                                 <p>Quantité: {{ item.quantity }}</p>
                             </div>
-
                         </div>
                     </div>
-                    <p class="text-center width-30"> <span class="bold">Total</span> <br> {{ order.total }} €</p>
+                    <p class="text-center width-30"> 
+                        <span class="bold">Total</span> 
+                        <br> 
+                        {{ order.total }} €
+                    </p>
                 </div>
             </template>
         </Card>  
@@ -34,35 +42,20 @@
     const orderList = ref();
 
     const getOrders = async() => {
-        const reponse = await fetch(`${host}${port}${routesApp.orders.allOrders}`);
-        const result = await reponse.json();
-
-        for (const order of result.orders) {
-            let total = 0
+        const response = await fetch(`${host}${port}${routesApp.orders.allOrders}`);
+        const data = await response.json();
+        for (const order of data) {
             for (const item of order.products) {
-                let url;
-                if(!Number(item.productId) && item.image){
+                if(!Number(item.productId)){
                     item.image = `${host}${port}/${item.image}`;
-                    url = `${host}${port}${routesApp.product.productById}${item.productId}`
-                }else{
-                    url = `${host}${port}${routesApp.product.productByIdApi}${item.productId}`
                 }
-                console.log(item)
-                const response = await fetch(url)
-                const responseJson = await response.json();
-                item.price = responseJson.price;
-                item.title = responseJson.title;
-                total += item.price * item.quantity
             }
-
-            order.total = total
         }
-        return result;
+        return data;
     }
 
     onMounted(async() => {
-        orderList.value = await getOrders()
-        console.log(orderList.value)
+       orderList.value  = await getOrders();
     })
 </script>
 

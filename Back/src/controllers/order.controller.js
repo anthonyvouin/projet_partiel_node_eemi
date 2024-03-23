@@ -53,7 +53,33 @@ export async function createOrder(req, res) {
 export async function getAllOrders(req, res) {
   try {
     const orders = await Order.find();
-    res.status(200).json({ orders });
+
+    for (const order of orders) {
+      let total = 0;
+
+      for (const item of order.products) {
+        let response;
+        if(!Number(item.productId)){
+          response = await axios.get(
+            `http://localhost:3000/api/product/products-by-id/${item.productId}`
+          );
+        }else{
+          response = await axios.get(
+            `http://localhost:3000/api/product/get-product-by-id/${item.productId}`
+          );
+         
+        }
+        const productDB = response.data
+        item.image = productDB.image;
+        item.price = productDB.price;
+        item.title = productDB.title;
+        total += item.price * item.quantity;
+      }
+      order.total = total;
+    }
+
+
+    res.status(200).json(orders);
   } catch (error) {
     console.error("Erreur lors de la récupération des commandes :", error);
     res

@@ -14,7 +14,8 @@ const productSchema = new mongoose.Schema({
 
 // list des produits pour le panier
 const orderSchema = new mongoose.Schema({
-  products: [productSchema]
+  products: [productSchema],
+  total: { type: Number, required: false },
 });
 
 const Order = mongoose.model("Order", orderSchema);

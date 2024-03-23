@@ -4,11 +4,16 @@
       <NavBar></NavBar>
     </header>
     <main>
-      <Filter @changeCategory="handleChangeCategory" @changeOrderBy="handleChangeOrderBy"></Filter>
-      <Products :category="selectedCategory" :orderBy="selectOrderBy" ></Products>
+      <Filter 
+        @changeCategory="handleChangeCategory" 
+        @changeOrderBy="handleChangeOrderBy">
+      </Filter>
+      <Products 
+        :category="selectedCategory" 
+        :orderBy="selectOrderBy" >
+      </Products>
     </main>
   </div>
-
 </template>
 
 <script setup>
@@ -17,7 +22,7 @@ import Filter from '../../components/Filter/Filter.vue';
 import NavBar from '@/components/NavBar/NavBar.vue';
 import { ref } from 'vue';
 
-const selectedCategory = ref('tous les produits')
+const selectedCategory = ref('tous les produits');
 const selectOrderBy = ref('');
 
 

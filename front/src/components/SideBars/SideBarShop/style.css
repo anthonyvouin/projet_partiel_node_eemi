@@ -7,3 +7,7 @@
 .min-height-94{
     min-height: 94vh;
 }
+
+.width-element-footer{
+    width: calc(100% / 3);
+}

@@ -4,7 +4,7 @@
             rounded
             label="Ajouter un produit" 
             iconClass="mr-1"
-            class="background-action mr-1 padding-13px mt-2" 
+            class="background-dark mr-1 padding-13px mt-2" 
             @click="openSideBarProduct()" />
         </div>
     
@@ -12,12 +12,10 @@
 
 <script setup>
     import Button from 'primevue/button';
-    import {ref, defineEmits } from 'vue';
     import { bus } from '@/main.js';
-    const emit = defineEmits();
 
     const openSideBarProduct = () => {
-        emit('update-visibility-product-sidebar');
+        bus.emit('open-side-bar', {title:'Ajouter un produit', step:'addModifyProducts'})
     }
 </script>
 

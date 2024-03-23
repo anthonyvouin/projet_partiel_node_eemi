@@ -8,7 +8,8 @@ import {
   updateProduct,
   getAllProductsDB,
   getProductByIdDb,
-  getProductsByCategoryDB
+  getProductsByCategoryDB,
+  canDeletProduct
   
 } from "../controllers/product.controller.js";
 
@@ -26,6 +27,7 @@ router.get("/products-by-id/:id", getProductByIdDb);
 router.delete("/:id", deleteProduct);
 router.put("/:id", updateProduct);
 router.get("/category/:category", getProductsByCategoryDB);
+router.get("/can-delete-product/:id", canDeletProduct);
 
 
 export default router;

@@ -75,10 +75,3 @@
 .min-width-200px{
     min-width: 200px;
 }
-.focus-sidebar-close-button:focus-visible{
-    outline-color: white ;
-}
-
-.focus-sidebar-close-button:hover{
-    background-color: #121285;
-}

@@ -1,14 +1,16 @@
 <template>
     <div class="min-height-90">
-        <p v-if="!products" class="flex align-items-center min-height-94 justify-center white">Vous n'avez pas sélectionnez de produits</p>
-        <div v-if="products" class="padding-10px ">
-            <p class='mb-1'>Total : {{ totalPanier }} € </p>
+        <p v-if="products.length===0" 
+        class="flex align-items-center min-height-94 justify-center color-dark bold">
+        Vous n'avez pas sélectionnez de produits
+        </p>
+        <div v-if="products.length!==0" class="padding-10px ">
             <div class="mb-4">
                 <div class="flex justify-space-between padding-10px">
-                    <p class="width-25">Produits</p>
-                    <p class="width-25 ml-1">Prix</p>
-                    <p class="width-25">Quantité</p>
-                    <p>Actions</p>
+                    <p class="width-25 bold">Produits</p>
+                    <p class="width-25 ml-1 bold">Prix</p>
+                    <p class="width-25 bold">Quantité</p>
+                    <p class="bold">Actions</p>
                 </div>
                 <Card  v-for="(item, index) in products" 
                     :key="index" 
@@ -53,13 +55,15 @@
             </div>
 
             <div class="sidebar-footer">
+                <div class="width-element-footer"></div>
                 <Button icon="pi pi-box"
                     iconClass="mr-1"
                     severity="info" 
-                    class="padding-5px background-action-outlined" 
+                    class="padding-5px background-dark-outlined width-element-footer" 
                     label="Commander"
                     @click="order()"
                 />
+                <p  class="width-element-footer text-right bold mr-1">Total : {{ totalPanier }} €</p>
             </div>
         </div>
     </div>
@@ -68,7 +72,7 @@
 <script setup>
     import { bus } from '@/main';
     import Card from 'primevue/card';
-    import { ref, defineEmits, defineAsyncComponent, onMounted } from 'vue';
+    import { ref, defineEmits, defineAsyncComponent, onMounted, defineProps, watch} from 'vue';
     import Button from 'primevue/button';
     import InputNumber from 'primevue/inputnumber';
     import { formatPrice } from "@/pipe/formatNumber";
@@ -77,7 +81,7 @@
 
 
     const totalPanier = ref(0);
-    const products = ref();
+    const products = ref([]);
     const emit = defineEmits();
     const dialog = useDialog();
     const DetailsProducts =  defineAsyncComponent(() => import('../../DetailsProducts/DetailsProducts.vue'));
@@ -128,7 +132,7 @@
                     '640px': '100vw'
                 },
                 pt:{
-                    header:{ class: 'primary-color padding-10px white' },
+                    header:{ class: 'background-dark padding-10px white' },
                     closeicon:{ class: 'white' },
                 },
                 modal: true
@@ -176,7 +180,6 @@
         }
       
     }
-
 
 </script>
 

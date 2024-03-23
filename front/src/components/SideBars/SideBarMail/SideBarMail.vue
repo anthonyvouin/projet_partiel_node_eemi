@@ -1,30 +1,61 @@
 <template>
     <div>
         <div class="padding-10px">
-        <InputText v-model="firstname" placeholder="Prénom" class="padding-10px width-100 mt-2" :invalid="errorfirstname"/> 
-        <small v-if="errorfirstname" class="color-red">Le champs prénom ne doit pas être vide.</small>    
+            <InputText v-model="firstname" 
+            placeholder="Prénom" 
+            class="padding-10px width-100 mt-2" 
+            :invalid="errorfirstname"/> 
+            <small v-if="errorfirstname" 
+            class="color-red">
+                Le champs prénom ne doit pas être vide.
+            </small>    
 
-        <InputText v-model="lastname" placeholder="Nom" class="padding-10px width-100 mt-1" :invalid="errorlastname"/>
-        <small v-if="errorlastname" class="color-red">Le champs nom ne doit pas être vide.</small>    
+            <InputText v-model="lastname" 
+            placeholder="Nom" 
+            class="padding-10px width-100 mt-1" 
+            :invalid="errorlastname"/>
+            <small v-if="errorlastname" 
+            class="color-red">
+                Le champs nom ne doit pas être vide.
+            </small>    
 
-        <InputGroup class="mt-1"> 
-            <Button icon="pi pi-at" class="primary-color"/>
-            <InputText id="email" v-model="email" placeholder="Email" class="padding-10px" :invalid="errorEmail" />  
-        </InputGroup>
-        <small v-if="errorEmail" class="color-red">Entrez un couriel valide.</small>   
+            <InputGroup class="mt-1"> 
+                <Button icon="pi pi-at" 
+                class="background-dark"/>
+                <InputText id="email" 
+                v-model="email" 
+                placeholder="Email" 
+                class="padding-10px" 
+                :invalid="errorEmail" />  
+            </InputGroup>
+            <small v-if="errorEmail" 
+            class="color-red">
+                Entrez un couriel valide.
+            </small>   
 
-        <InputText v-model="subject" placeholder="Objet" class="padding-10px width-100 mt-1" :invalid="errorsubject"/>
-        <small v-if="errorsubject" class="color-red">Le champs objet ne doit pas être vide.</small>  
+            <InputText v-model="subject" 
+            placeholder="Objet" 
+            class="padding-10px width-100 mt-1" 
+            :invalid="errorsubject"/>
+            <small v-if="errorsubject" 
+            class="color-red">
+                Le champs objet ne doit pas être vide.
+            </small>  
 
-        <Editor v-model="message" editorStyle="height: 320px" class="mt-1" :invalid="errormessage"/>
-        <small v-if="errormessage" class="color-red">Le corps du message ne doit pas être vide.</small>  
+            <Editor v-model="message" 
+            editorStyle="height: 320px" 
+            class="mt-1" :invalid="errormessage"/>
+            <small v-if="errormessage" 
+            class="color-red">
+                Le corps du message ne doit pas être vide.
+            </small>  
         </div>
     
         <div class="sidebar-footer">
             <Button icon="pi pi-check" 
             severity="info"  
             label="Envoyer"  
-            class="padding-10px background-action-outlined" 
+            class="padding-10px background-dark-outlined" 
             raised :pt="{icon:{class:'mr-1'}}" 
             @click="sendMail()"/>
         </div>

@@ -8,7 +8,7 @@
                 label="Menu"
                 iconClass="mr-1"
                 @click="toggle"
-                class="background-transparent color-action padding-10px" 
+                class="background-transparent color-dark padding-10px" 
                 aria-haspopup="true"  />
                 <Menu ref="menu" 
                 id="overlay_menu" 
@@ -19,18 +19,24 @@
                     content:{class:'padding-10px'},
                 }" />
         </div>
-
+        <!--Fin Menu Mobile-->
+        
         <div class="flex" style="position: relative;">
-              <!--Menu Desktop-->
+            <!--Menu Desktop-->
             <Menu v-if="!isMobile" :model="items" class="menu-dashboard" :pt="{
                 icon:{class:'mr-1'}, 
-                content:{class:'padding-10px'},
+                content:{class:'padding-10px',},
                 menu:{style: 'position: fixed'}
                 }"/>
-            <ProductsAdmin v-if="step === 'products'"lass=" pt-1" :class="{'ml-2': !isMobile, 'padding-10px': isMobile}"></ProductsAdmin>
+            <!--Fin Menu Desktop-->
+
+            <!--Pages en fonction du step-->
+            <ProductsAdmin v-if="step === 'products'"
+                class=" pt-1" 
+                :class="{'ml-2': !isMobile, 'padding-10px': isMobile}">
+            </ProductsAdmin>
             <Orders v-if="step === 'orders'"></Orders>
         </div>
-       
     </div>
 </template>
 
@@ -42,17 +48,18 @@
     import Button from "primevue/button";
 
     const items = ref([
+        { label: 'Home', icon: 'pi pi-home', class:'padding-10px', url:'/'  },
         { label: 'Produits', icon: 'pi pi-plus', class:'padding-10px', command: (()=>changeStep('products'))},
-        { label: 'Commandes', icon: 'pi pi-search', class:'padding-10px',command: (()=>changeStep('orders'))  },
-        { label: 'Home', icon: 'pi pi-search', class:'padding-10px', url:'/'  }
+        { label: 'Commandes', icon: 'pi pi-box', class:'padding-10px',command: (()=>changeStep('orders'))  }
+        
     ]);
     const isMobile = ref(false);
-    const menu = ref()
-    const step = ref('products')
+    const menu = ref();
+    const step = ref('products');
 
     onMounted(() => {
+        //pour mettre le bon menu au resize de la fenetre
         window.addEventListener('resize', handleResize);
-        handleResize(); // Appel initial de la fonction pour définir isMobile en fonction de la taille de l'écran actuelle
     });
 
     const handleResize = () => {
@@ -67,8 +74,8 @@
     menu.value.toggle(event);
     };
 
-    const changeStep = (navigate) => {
-        step.value = navigate
+    const changeStep = (navigateTo) => {
+        step.value = navigateTo;
     }
 </script>
 <style scoped src="./style.css"></style>

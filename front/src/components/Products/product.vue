@@ -24,8 +24,8 @@
 
                 <template #footer>
                     <div class="flex justify-space-between align-items-center mb-10px mt-2">
-                        <p class="ml-10px">{{item.price}} €</p>
-                        <Button class="padding-5px mr-10px background-action-outlined" 
+                        <p class="ml-10px">{{formatPrice(item.price) }} €</p>
+                        <Button class="padding-5px mr-10px background-dark-outlined" 
                         label="Détail" 
                         @click="getDetails(item)"/>
                     </div>
@@ -34,7 +34,7 @@
         </div>  
         <DynamicDialog />
         <Button type="button"
-        class="padding-10px shopCard primary-color" 
+        class="padding-10px shopCard background-dark" 
         rounded 
         icon="pi pi-shopping-cart"
         iconClass="mr-1"
@@ -56,6 +56,7 @@ import DynamicDialog from 'primevue/dynamicdialog';
 import { useToast } from 'primevue/usetoast';
 import { host, port, routesApp } from '@/conf/route-app';
 import { getIconsByCategory, getProductsBabaWish } from '@/functions/functions';
+import { formatPrice } from "@/pipe/formatNumber";
 
 const toast = useToast();
 const DetailsProducts =  defineAsyncComponent(() => import('../DetailsProducts/DetailsProducts.vue'));
@@ -74,7 +75,7 @@ const props = defineProps({
 const selectedCategory = ref(props.category);
 
 onMounted(async() => {
-    getProductsList();
+    getProductsList('tous les produits');
     getQuickShop();
 })
 
@@ -82,10 +83,10 @@ const  sideBarShop = () => {
     bus.emit('open-side-bar', {title:'Panier', step:'shop'})
 }
 
-const getProductsList = async () => {
+const getProductsList = async (category) => {
    
     await getApiProductList();
-    products.value = products.value.concat(await getProductsBabaWish());
+    products.value = products.value.concat(await getProductsBabaWish(category));
     searchProduct.value = products.value.slice();
     orderBy();
 };
@@ -97,7 +98,7 @@ const getApiProductList = async () => {
     if(selectedCategory.value === 'tous les produits'){
         response = await fetch(`${host}${port}${routesApp.product.allProductsApi}`);
     }else{
-        response =  await fetch(`http://localhost:3000/api/product/get-product-by-category/${selectedCategory.value}`);
+        response =  await fetch(`${host}${port}${routesApp.product.byCategoryApi}${selectedCategory.value}`);
     }
 
     products.value =  await response.json();
@@ -106,7 +107,7 @@ const getApiProductList = async () => {
 
 watch(() => props.category, (newValue, oldValue) => { 
     selectedCategory.value = newValue;
-    getProductsList();
+    getProductsList(selectedCategory.value);
 });
 
 watch(() => props.orderBy, (newValue, oldValue) => { 
@@ -123,13 +124,13 @@ const orderBy = () => {
     }
 }
 
-const getDetails = (products) => {
+const getDetails = (product) => {
     dialog.open(DetailsProducts, {
         data: {
-            products:products
+            products:product
         },
         props: {
-            header: products.title,
+            header: product.title,
             style: {
                 width: '50vw',
                 height: '90vh',
@@ -139,8 +140,8 @@ const getDetails = (products) => {
                 '640px': '100vw'
             },
             pt:{
-                header:{ class: 'primary-color padding-10px white' },
-                closeicon:{ class: 'white' },
+                header:{ class: 'background-dark padding-10px white' },
+                closeButton:{class: 'white hover-dark'}
             },
             modal: true
         },
@@ -155,7 +156,7 @@ const getDetails = (products) => {
 
 
 const getQuickShop = () => {
-    numberSavedProduct.value = 0
+    numberSavedProduct.value = 0;
     const saveProduct = localStorage.getItem('babawishList');
     if(saveProduct){
         savedProduct.value = JSON.parse(saveProduct);

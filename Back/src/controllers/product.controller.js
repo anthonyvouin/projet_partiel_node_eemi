@@ -6,6 +6,7 @@ import path from "path";
 import { randomBytes } from "crypto";
 import { rename } from "fs/promises";
 import { unlink } from "fs/promises"; // Importer la fonction unlink pour supprimer le fichier
+import Order from "../models/Order.js";
 
 // Catégories autorisées
 const allowedCategories = ["electronics", "jewelery", "men's clothing", "women's clothing"];
@@ -294,4 +295,21 @@ export async function getProductsByCategoryDB(req, res) {
       .status(500)
       .json({ error: "Erreur lors de la récupération des produits par catégorie." });
   }
+}
+
+export async function canDeletProduct(req, res){
+  const productId = req.params.id
+  const orders = await Order.find();
+  let productFind = false
+  
+  for (const order of orders) {
+    for (const item of order.products) {
+        if(item.productId === productId){
+          productFind = true
+        }
+    }
+  }
+
+  return res.status(200).json({response: !productFind});
+
 }

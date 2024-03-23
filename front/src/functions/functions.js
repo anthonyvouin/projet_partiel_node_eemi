@@ -8,9 +8,15 @@ export const clickOnCloseButton = (e) => {
     ||(!e.target.farthestViewportElement && e.target.classList.value === 'p-icon p-sidebar-close-icon white')
 }
 
-export const getProductsBabaWish = async(e) => {
-    const reponse = await fetch(`${host}${port}${routesApp.product.allProductsBabaWish}`);
-    const result = await reponse.json();
+export const getProductsBabaWish = async(category) => {
+    let response;
+    if(category === 'tous les produits'){
+        response = await fetch(`${host}${port}${routesApp.product.allProductsBabaWish}`);
+    }else{
+        response = await fetch(`${host}${port}${routesApp.product.byCategoryBabaWish}${category}`)
+    }
+
+    const result = await response.json();
 
     result.map(e => {
         if(e.image){

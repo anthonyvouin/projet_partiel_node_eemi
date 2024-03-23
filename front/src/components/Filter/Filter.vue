@@ -28,7 +28,6 @@
     import { ref, onMounted, defineEmits } from 'vue';
     import Dropdown from 'primevue/dropdown';
     import Button from 'primevue/button';
-    import Toast from 'primevue/toast';
     import { useToast } from 'primevue/usetoast';
     import { getIconsByCategory } from '@/functions/functions';
     

@@ -4,6 +4,7 @@
   <SideBarContainer :title="titleSideBar" 
     :step="stepSideBar" 
     :visible="visible"
+    :product="product"
     @sidebar=closeSidebar()>
   </SideBarContainer>
   <ToastBaba></ToastBaba>
@@ -28,11 +29,25 @@
   const visible = ref(false);
   const titleSideBar = ref();
   const stepSideBar = ref();
+  const product = ref(null)
 
   bus.on('open-side-bar', (data)=>{
     stepSideBar.value = data.step;
     titleSideBar.value = data.title;
+    
+    if(data.selectedProduct){
+      product.value = data.selectedProduct;
+    }else{
+      product.value = null;
+    }
+    console.log(product.value)
+
     visible.value = true
+  })
+
+  bus.on('close-side-bar', (data)=>{
+    product.value = null;
+    closeSidebar();
   })
 
   const closeSidebar = () => {

@@ -1,8 +1,10 @@
 <template>
     <div class="padding-10px">
-       <img :src="product.image" alt="" class="img-product mt-1">
+       <img :src="product.image" 
+            class="img-product mt-1">
        <div class="width-80 margin-0-auto">
-            <p class="mt-1 justify" v-html="product.description"></p>
+            <p class="mt-1 justify" 
+                v-html="product.description"></p>
             <p class="mt-2">Prix : 
                 <span class="bold">{{ getPrice() }} €</span>
             </p>
@@ -22,18 +24,17 @@
                         <span class="pi pi-minus" />
                     </template>
                 </InputNumber>
-         
 
-                <Button class="padding-10px min-width-button"
+                <Button class="padding-10px min-width-button background-dark-outlined"
                         icon="pi pi-shopping-cart"
                         iconClass="mr-1"
                         :label="messageButton" 
-                        severity="info" 
                         outlined 
                         v-if="quantity > 0 "
                         @click="addProduct()"/>
           
             </div>
+
             <div class="flex row-reverse">
                 <Button class="padding-10px min-width-button mt-1"
                     icon="pi pi-trash"
@@ -44,7 +45,6 @@
                     v-if="messageButton === 'Modifier' "
                     @click="deleteProduct()"/>
             </div>
-            
             
         </div>
       
@@ -61,7 +61,7 @@ import { bus } from "@/main";
 const dialogRef = inject('dialogRef');
 const product = ref('');
 const quantity = ref(1);
-const messageButton = ref('Ajouter au panier')
+const messageButton = ref('Ajouter au panier');
 
 onMounted(() => {
    const data = dialogRef.value.data;
@@ -71,8 +71,6 @@ onMounted(() => {
    if(listProductSaved){
     const listSaved = JSON.parse(listProductSaved);
     const productFind = listSaved.findIndex(item => item.id === product.value.id || item.id === product.value._id);
-    console.log(listSaved)
-    console.log(product.value)
     if(listSaved && productFind !== -1){
         quantity.value = listSaved[productFind].quantity;
         messageButton.value = 'Modifier';
@@ -89,15 +87,14 @@ const saveProduct = (data) =>{
     const savedData = localStorage.getItem('babawishList');
 
     if(!savedData){
-        const result = [];
-        result.push(data);
+        const result = [data];
         localStorage.setItem('babawishList', JSON.stringify(result));
         data.severity = 'success';
         data.status = 'Add';
         data.toastMessage = `a été rajouté à votre panier. `;
        
     }else{
-       const listSaved = JSON.parse(savedData)
+       const listSaved = JSON.parse(savedData);
        const productFind = listSaved.findIndex(item => item.id === data.id);
        
        if(productFind !== -1 && listSaved[productFind].quantity !== data.quantity){
