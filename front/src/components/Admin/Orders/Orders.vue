@@ -1,6 +1,5 @@
 <template>
-    <div class="min-height-100 width-100" 
-        v-if="orderList">
+    <div class="min-height-100 width-100">
         <Card v-for="(order, index) in orderList" 
             :key="index" 
             class="container-order">

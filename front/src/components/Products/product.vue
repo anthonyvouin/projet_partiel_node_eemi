@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container-component-product">
         <div class="flex flex-wrap column row-desktop column-gap-10 container-card row-gap-20 ">
             <Card v-for="(item, index) in searchProduct" :key="index" class="width-300px flex column justify-space-between card" >
                 <template #title>
@@ -33,16 +33,17 @@
             </Card>
         </div>  
         <DynamicDialog />
-        <Button type="button"
-        class="padding-10px shopCard background-dark" 
-        rounded 
-        icon="pi pi-shopping-cart"
-        iconClass="mr-1"
-        :label="numberSavedProduct"
-        @click="sideBarShop()"  
+        <div class="shopCard">
+            <Button type="button"
+            class="padding-10px background-dark" 
+            rounded 
+            icon="pi pi-shopping-cart"
+            iconClass="mr-1"
+            :label="numberSavedProduct"
+            @click="sideBarShop()"  
         />
-
-        <!-- <SideBarShop :visible="visibilitySideBarShop" :products="savedProduct" @delete-product="deleteProducts($event)"></SideBarShop> -->
+        </div>
+   
     </div>  
 </template>
 

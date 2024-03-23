@@ -67,3 +67,33 @@
   align-items: center;
   justify-content: center;
 }
+
+ .active{
+  background-color: var(--light);
+}
+.active .p-menuitem-content {
+  background-color: transparent !important;
+
+}
+.active .p-menuitem-content a .p-menuitem-icon, .active .p-menuitem-content a .p-menuitem-text{
+  color: var(--dark) !important
+} 
+
+.menu-dashboard ul li:hover{
+  background-color: var(--dark);
+  cursor: pointer;
+  transition: 0.2s ease-in-out
+}
+
+.menu-dashboard ul .p-menuitem:hover .p-menuitem-content a .p-menuitem-icon, 
+.menu-dashboard ul .p-menuitem:hover .p-menuitem-content a .p-menuitem-text,
+.active:hover .p-menuitem-content a .p-menuitem-icon,
+.active:hover .p-menuitem-content a .p-menuitem-text{
+
+  color:white !important;
+}
+
+.menu-dashboard ul .p-menuitem:hover > *,.menu-dashboard ul .p-menuitem > * {
+  background-color: transparent;
+}
+

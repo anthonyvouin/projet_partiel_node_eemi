@@ -23,10 +23,11 @@
         
         <div class="flex" style="position: relative;">
             <!--Menu Desktop-->
-            <Menu v-if="!isMobile" :model="items" class="menu-dashboard" :pt="{
+            <Menu v-if="!isMobile" :model="items" class="menu-dashboard border-right"
+            :pt="{
                 icon:{class:'mr-1'}, 
-                content:{class:'padding-10px',},
-                menu:{style: 'position: fixed'}
+                content:{class:'padding-10px'},
+                menu:{style: 'position: fixed; width: 197px'}
                 }"/>
             <!--Fin Menu Desktop-->
 
@@ -47,15 +48,17 @@
     import Orders from '@/components/Admin/Orders/Orders.vue'
     import Button from "primevue/button";
 
-    const items = ref([
-        { label: 'Home', icon: 'pi pi-home', class:'padding-10px', url:'/'  },
-        { label: 'Produits', icon: 'pi pi-plus', class:'padding-10px', command: (()=>changeStep('products'))},
-        { label: 'Commandes', icon: 'pi pi-box', class:'padding-10px',command: (()=>changeStep('orders'))  }
-        
-    ]);
+
     const isMobile = ref(false);
     const menu = ref();
     const step = ref('products');
+
+    const items = ref([
+        { label: 'Home', icon: 'pi pi-home', class:'padding-10px', url:'/'  },
+        { label: 'Produits', icon: 'pi pi-plus', class:'padding-10px active', command: (()=>changeStep('products'))},
+        { label: 'Commandes', icon: 'pi pi-box', class:'padding-10px',command: (()=>changeStep('orders'))  }
+        
+    ]);
 
     onMounted(() => {
         //pour mettre le bon menu au resize de la fenetre
@@ -76,6 +79,28 @@
 
     const changeStep = (navigateTo) => {
         step.value = navigateTo;
-    }
+        if(step.value === 'products'){
+            items.value[1].class='padding-10px active'
+            items.value[2].class='padding-10px'
+        }
+
+        if(step.value === 'orders'){
+            items.value[1].class='padding-10px'
+            items.value[2].class='padding-10px active'
+        }
+        
+        // let getActiveClass = document.querySelectorAll('.active');
+        // console.log(getActiveClass)
+        // getActiveClass.forEach(e => {
+        //     e.classList.remove('active');
+        // })
+
+
+        // if(step.value ==='products'){
+        //     items.value[1].class='padding-10px active'
+        // }else if(step.value ==='orders'){
+        //     items.value[2].class='padding-10px active'
+        // }
+            }
 </script>
 <style scoped src="./style.css"></style>

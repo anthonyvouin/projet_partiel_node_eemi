@@ -1,16 +1,23 @@
 <template>
-  <div>
-  <RouterView />
-  <SideBarContainer :title="titleSideBar" 
-    :step="stepSideBar" 
-    :visible="visible"
-    :product="product"
-    @sidebar=closeSidebar()>
-  </SideBarContainer>
-  <ToastBaba></ToastBaba>
-  <ConfirmDeleteProduct></ConfirmDeleteProduct>
+  <div class="height-100vh">
+    <div class="min-height-100vh">
+      <RouterView />
+    </div>
+    
+    <SideBarContainer :title="titleSideBar" 
+      :step="stepSideBar" 
+      :visible="visible"
+      :product="product"
+      @sidebar=closeSidebar()>
+    </SideBarContainer>
+    <ToastBaba></ToastBaba>
+    <ConfirmDeleteProduct></ConfirmDeleteProduct>
 
-  
+    <div class="footer background-dark white padding-20px">
+      <p class="text-center">©2024 by Anthony Vouin and Charline Royer</p>
+      
+
+    </div>
   </div>
 
 
