@@ -60,7 +60,7 @@
             
         <div v-if="thumbnail" class="mt-2 flex width-100 justify-space-between align-items-center">
             <img :src="thumbnail"
-            class="preview "
+            class="preview mb-4"
             alt="image du produit">
         </div>
 

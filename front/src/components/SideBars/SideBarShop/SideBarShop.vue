@@ -1,7 +1,7 @@
 <template>
     <div class="min-height-90">
         <p v-if="products.length===0" 
-        class="flex align-items-center min-height-94 justify-center color-dark bold">
+        class="flex align-items-center min-height-90 justify-center color-dark bold">
         Vous n'avez pas sélectionnez de produits
         </p>
         <div v-if="products.length!==0" class="padding-10px ">

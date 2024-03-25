@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="padding-10px">
+        <div class="padding-10px mb-2">
             <InputText v-model="firstname" 
             placeholder="Prénom" 
             class="padding-10px width-100 mt-2" 
@@ -43,7 +43,7 @@
             </small>  
 
             <Editor v-model="message" 
-            editorStyle="height: 320px" 
+            editorStyle="height: 200px" 
             class="mt-1" :invalid="errormessage"/>
             <small v-if="errormessage" 
             class="color-red">
