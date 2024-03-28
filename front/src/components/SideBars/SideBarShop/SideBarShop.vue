@@ -117,6 +117,7 @@
         }
        
        const responseJson = await getProduct.json();
+
         dialog.open(DetailsProducts, {
             data: {
                 products:responseJson
@@ -149,7 +150,7 @@
     })
 
     const order = async() => {
-        const result = []
+        const result = [];
         products.value.forEach(e => {
             const product = {
                 productId: e.id,
