@@ -17,9 +17,12 @@
         <Button @click="changeOrderBy()"
         severity="secondary"
         class="text-center"
-        v-tooltip.bottom="{value: 'Changer le trie', pt: {
-            text: 'padding-10px'
-        }}"
+        v-tooltip.bottom="{
+            value: 'Changer le trie', 
+            pt: {
+                    text: 'padding-10px'
+                }
+        }"
         :icon="getButtonIcon()"></Button>
     </div>
 </template>

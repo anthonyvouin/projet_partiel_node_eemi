@@ -32,7 +32,6 @@
                         outlined 
                         v-if="quantity > 0 "
                         @click="addProduct()"/>
-          
             </div>
 
             <div class="flex row-reverse">
@@ -68,9 +67,11 @@ onMounted(() => {
    product.value = data.products;
    const listProductSaved = localStorage.getItem('babawishList');
 
+   // Si on retrouve le produit dans la liste du panier alors on mets le bouton modifier
    if(listProductSaved){
     const listSaved = JSON.parse(listProductSaved);
     const productFind = listSaved.findIndex(item => item.id === product.value.id || item.id === product.value._id);
+    
     if(listSaved && productFind !== -1){
         quantity.value = listSaved[productFind].quantity;
         messageButton.value = 'Modifier';
@@ -110,7 +111,6 @@ const saveProduct = (data) =>{
         data.severity = 'success';
         data.status = 'Add';
         data.toastMessage = `a été rajouté à votre panier.`;
-
        }
       
     }

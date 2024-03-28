@@ -23,11 +23,13 @@
         
         <div class="flex" style="position: relative;">
             <!--Menu Desktop-->
-            <Menu v-if="!isMobile" :model="items" class="menu-dashboard border-right"
-            :pt="{
-                icon:{class:'mr-1'}, 
-                content:{class:'padding-10px'},
-                menu:{style: 'position: fixed; width: 197px'}
+            <Menu v-if="!isMobile" 
+                :model="items" 
+                class="menu-dashboard border-right"
+                :pt="{
+                    icon:{class:'mr-1'}, 
+                    content:{class:'padding-10px'},
+                    menu:{style: 'position: fixed; width: 197px'}
                 }"/>
             <!--Fin Menu Desktop-->
 
