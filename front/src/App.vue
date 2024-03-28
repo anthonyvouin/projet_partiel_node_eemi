@@ -15,18 +15,12 @@
 
     <div class="footer background-dark white padding-20px">
       <p class="text-center">©2024 by Anthony Vouin and Charline Royer</p>
-      
-
     </div>
   </div>
-
-
 </template>
 
 <script setup>
-  import { RouterLink, RouterView } from 'vue-router'
-  import NavBar from './components/NavBar/NavBar.vue';
-  // import SideBarMail from './components/SideBars/SideBarMail/SideBarMail.vue';
+  import { RouterView } from 'vue-router'
   import ToastBaba from './components/ToastBaba/ToastBaba.vue'
   import ConfirmDeleteProduct from './components/Admin/ConfirmDeleteProduct/ConfirmDeleteProduct.vue';
   import { bus } from '@/main.js';
@@ -36,7 +30,7 @@
   const visible = ref(false);
   const titleSideBar = ref();
   const stepSideBar = ref();
-  const product = ref(null)
+  const product = ref(null);
 
   bus.on('open-side-bar', (data)=>{
     stepSideBar.value = data.step;
@@ -47,18 +41,12 @@
     }else{
       product.value = null;
     }
-    console.log(product.value)
-
-    visible.value = true
-  })
-
-  bus.on('close-side-bar', (data)=>{
-    product.value = null;
-    closeSidebar();
+    visible.value = true;
   })
 
   const closeSidebar = () => {
-    visible.value = !visible.value
+    product.value = null;
+    visible.value = !visible.value;
   }
 </script>
 

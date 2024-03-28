@@ -14,9 +14,16 @@
         <p class="text-center width-100 background-dark">{{title}}</p>
         </template>
 
-        <SideBarMail v-if="step === 'mail'" @close-sidebar="closeSideBar($event)"></SideBarMail>
-        <SideBarShop v-if="step === 'shop'" @close-sidebar="closeSideBar($event)"></SideBarShop>
-        <SideBarProduct v-if="step === 'addModifyProducts'" :product="props.product"></SideBarProduct>
+        <SideBarMail v-if="step === 'mail'" 
+            @close-sidebar="closeSideBar($event)">
+        </SideBarMail>
+        <SideBarShop v-if="step === 'shop'" 
+            @close-sidebar="closeSideBar($event)">
+        </SideBarShop>
+        <SideBarProduct v-if="step === 'addModifyProducts'" 
+            :product="props.product"   
+            @close-sidebar="closeSideBar($event)">
+        </SideBarProduct>
     </Sidebar>  
     
 </template>

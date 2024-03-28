@@ -78,7 +78,7 @@
 
 <script setup>
     import { bus } from '@/main.js';
-    import {ref, defineProps, onMounted } from 'vue';
+    import {ref, defineProps, onMounted, defineEmits } from 'vue';
     import InputText from 'primevue/inputtext';
     import Editor from 'primevue/editor';
     import InputNumber from 'primevue/inputnumber';
@@ -88,6 +88,7 @@
     import { host, port, routesApp } from '@/conf/route-app';
     import { useToast } from "primevue/usetoast";
 
+    const emit = defineEmits();
     const toast = useToast();
     const btnMessage = ref('Enregistrer')
     const title = ref('');
@@ -214,7 +215,7 @@
                 await fetch(url, options);
                 toast.add({ severity: 'success', summary: 'Ajout Produit', detail: `Votre a été créer`, life: 3000 });
                 bus.emit('add-product');
-                bus.emit('close-side-bar');
+                emit('close-sidebar', 'close');
             }catch(e){
                 toast.add({ severity: 'error', summary: 'Erreur ajout produit', detail: `Une erreur s'est produite`, life: 3000 });
             }

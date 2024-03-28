@@ -15,13 +15,7 @@ export const bus = new TinyEmitter();
 
 const app = createApp(App)
 app.use(router)
-app.use(PrimeVue, {
-    pt: {
-        // card: {
-        //     content: { class: 'white' }
-        // }
-    }
-})
+app.use(PrimeVue)
 app.directive('tooltip', Tooltip);
 app.use(ToastService);
 app.use(DialogService);

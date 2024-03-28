@@ -72,7 +72,7 @@
 <script setup>
     import { bus } from '@/main';
     import Card from 'primevue/card';
-    import { ref, defineEmits, defineAsyncComponent, onMounted, defineProps, watch} from 'vue';
+    import { ref, defineEmits, defineAsyncComponent, onMounted} from 'vue';
     import Button from 'primevue/button';
     import InputNumber from 'primevue/inputnumber';
     import { formatPrice } from "@/pipe/formatNumber";
