@@ -1,15 +1,14 @@
 ---
-- name: Add NodeSource repository
-  shell: |
-    curl -fsSL https://deb.nodesource.com/setup_{{ nodejs_version }} | bash -
-  args:
-    creates: /etc/apt/sources.list.d/nodesource.list
-
-- name: Install Node.js
-  apt:
+- name: "Update repositories cache"
+  ansible.builtin.apt:
+    update_cache: true
+- name: "Install nodejs"
+  ansible.builtin.apt:
     name: nodejs
-    state: present
-    update_cache: yes
+- name: "Install npm"
+  ansible.builtin.apt:
+    name: npm
+
 
 - name: Install PM2 globally
   npm:

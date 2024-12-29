@@ -1,8 +1,25 @@
 http_port: 80
 full_front_hostname: "example1.com"
-full_back_hostname: "example2.com"
+hostname: 'site-e-commerce'
+app_repository: 'https://github.com/anthonyvouin/projet_partiel_node_eemi.git'
+
+full_hostname_db: ''
 node_port: 3000
 node_app_path: /var/www/node-app
 vue_app_path: /var/www/vue-app
 nginx_sites_enabled: /etc/nginx/sites-enabled
 nginx_sites_available: /etc/nginx/sites-available
+
+proxy_connect_timeout: 60
+proxy_send_timeout: 60
+proxy_read_timeout: 60
+
+# Node.js configuration
+nodejs_version: "20.x"
+
+# MongoDB configuration
+mongodb_version: "6.0"
+mongodb_port: 27017
+mongodb_user: "appuser"
+mongodb_password: "{{ vault_mongodb_password }}"
+mongodb_database: "appdb"

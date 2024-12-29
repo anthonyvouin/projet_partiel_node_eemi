@@ -1,9 +1,13 @@
 ---
-- hosts: all
-  become: yes
+- name: "Install infrastructure"
+  hosts: all
+
+  vars_files:
+    - vars/config.yml
+
   roles:
-    - common          # Installation des dépendances de base
-    - mongodb         # Installation et configuration de MongoDB
-    - nginx           # Installation et configuration de Nginx
-    - nodejs         # Installation de Node.js
-    - app            # Déploiement de l'application
+    - common
+    - mongodb
+    - nginx
+    - nodejs
+    - app

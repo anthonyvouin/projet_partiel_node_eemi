@@ -1,27 +1,36 @@
 ---
 - name: Create app directory
   file:
-    path: /var/www/{{ full_back_hostname }}
+    path: /var/www/{{hostname}}
     state: directory
     mode: '0755'
 
 - name: Clone application repository
   git:
     repo: "{{ app_repository }}"
-    dest: /var/www/{{ full_back_hostname }}
-    version: "{{ app_version | default('main') }}"
+    dest: /var/www/{{hostname}}
 
-- name: Install npm dependencies
+- name: Install back npm dependencies
   npm:
-    path: /var/www/{{ full_back_hostname }}
+    path: /var/www/{{ hostname }}/Back
     state: present
 
-- name: Build application
+- name: Install front npm dependencies
+  npm:
+    path: /var/www/{{ hostname }}/front
+    state: present
+
+- name: Build back application
   command:
     cmd: npm run build
-    chdir: /var/www/{{ full_back_hostname }}
+    chdir: /var/www/{{ hostname }}/Back
+
+- name: Build front application
+  command:
+    cmd: npm run build
+    chdir: /var/www/{{ hostname }}/front
 
 - name: Start application with PM2
   command:
-    cmd: pm2 start npm --name "{{ app_name }}" -- start
-    chdir: /var/www/{{ full_back_hostname }} 
+    cmd: pm2 start npm --name "{{ hostname }}" -- start
+    chdir: /var/www/{{ hostname }}/Back
