@@ -1,3 +1,12 @@
+# Membres du groupes
+
+- Anthony Vouin
+- Charline Royer
+
+# Voir le projet déployé
+
+Utiliser le docker mis à disposition pour deployer le projet.
+
 # Projet Node.js + Vue.js
 
 Ce projet combine un serveur back-end Node.js avec un client front-end Vue.js.
@@ -13,7 +22,6 @@ Ce projet combine un serveur back-end Node.js avec un client front-end Vue.js.
 3. Configurer les variables d'environnement en créant un fichier `.env` à la racine du dossier Back.
 4. Installez les dépendances : `npm i`
 5. Démarrez le serveur : `npm start`
-
 
 ### Front-end (Vue.js)
 

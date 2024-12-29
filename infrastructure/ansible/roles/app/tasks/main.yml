@@ -1,14 +1,14 @@
 ---
 - name: Create app directory
   file:
-    path: /var/www/{{hostname}}
+    path: /var/www/{{ hostname }}
     state: directory
     mode: '0755'
 
 - name: Clone application repository
   git:
     repo: "{{ app_repository }}"
-    dest: /var/www/{{hostname}}
+    dest: /var/www/{{ hostname }}
 
 - name: Install back npm dependencies
   npm:

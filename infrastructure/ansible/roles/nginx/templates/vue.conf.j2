@@ -5,7 +5,7 @@ server {
     error_log /var/log/nginx/{{ full_front_hostname }}.error.log;
 
     location / {
-        root /var/www/html/{{ hostname }}/front;
+        root /var/www/html/{{ hostname }}/front/dist;
         try_files $uri $uri/ /index.html;
     }
 }

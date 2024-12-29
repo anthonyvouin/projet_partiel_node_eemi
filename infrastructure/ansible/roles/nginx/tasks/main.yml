@@ -17,3 +17,17 @@
     dest: /etc/nginx/sites-available/mongodb
     mode: '0644'
   notify: restart nginx
+
+- name: Enable vue configuration
+  file:
+    src: /etc/nginx/sites-available/vue
+    dest: /etc/nginx/sites-enabled/vue
+    state: link
+  notify: Restart-nginx
+
+- name: Enable mongodb configuration
+  file:
+    src: /etc/nginx/sites-available/mongodb
+    dest: /etc/nginx/sites-enabled/mongodb
+    state: link
+  notify: Restart-nginx

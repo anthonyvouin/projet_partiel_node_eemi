@@ -1,0 +1,22 @@
+services:
+  node_manager:
+    image: alpine/ansible
+    working_dir: /app/infrastructure/ansible
+    volumes:
+      - .:/app
+      - ./infrastructure/ssh_keys:/root/.ssh:rw
+
+  target:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+      args:
+        - USERNAME=deployer
+        - PASSWORD=deployer
+    environment:
+      - PUBLIC_KEY_FILE=/root/.ssh/authorized_keys
+    volumes:
+      - ./infrastructure/ssh_keys/id_ed25519.pub:/root/.ssh/authorized_keys
+    command: ["sh", "-c", "while true; do sleep 30; done;"]
+    ports:
+      - "8080:80"
