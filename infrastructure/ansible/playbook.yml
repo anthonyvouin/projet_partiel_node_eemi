@@ -1,0 +1,93 @@
+- name: Déployer Node.js et Vue.js avec Nginx
+  hosts: webserver
+  become: true
+  vars:
+    node_app_path: /var/www/node-app
+    vue_app_path: /var/www/vue-app
+    nginx_sites_enabled: /etc/nginx/sites-enabled
+    nginx_sites_available: /etc/nginx/sites-available
+  tasks:
+    - name: Installation des paquets
+      apt:
+        name:
+          - nginx
+          - nodejs
+          - npm
+        state: present
+        update_cache: yes
+
+    - name: copier l'app node sur le serveur
+      copy:
+        src: ../node-app/
+        dest: "{{ node_app_path }}"
+      notify:
+        - Restart Node.js service
+
+    - name: Copier l'application Vue.js sur le serveur
+      copy:
+        src: ../vue-app/dist/
+        dest: "{{ vue_app_path }}"
+      notify:
+        - Reload Nginx
+
+    - name: Installer les dépendances Node.js
+      shell: npm install
+      args:
+        chdir: "{{ node_app_path }}"
+
+    - name: Configurer le service Node.js
+      copy:
+        dest: /etc/systemd/system/node-app.service
+        content: |
+          [Unit]
+          Description=Node.js Backend
+          After=network.target
+
+          [Service]
+          ExecStart=/usr/bin/node {{ node_app_path }}/index.js
+          Restart=always
+          User=nobody
+          Group=nogroup
+          Environment=PORT=3000
+          WorkingDirectory={{ node_app_path }}
+
+          [Install]
+          WantedBy=multi-user.target
+      notify:
+        - Restart Node.js service
+
+    - name: Copier la configuration Nginx pour Vue.js
+      copy:
+        src: files/vue.conf
+        dest: "{{ nginx_sites_available }}/vue"
+      notify:
+        - Reload Nginx
+
+    - name: Copier la configuration Nginx pour Node.js
+      copy:
+        src: files/node.conf
+        dest: "{{ nginx_sites_available }}/node"
+      notify:
+        - Reload Nginx
+
+    - name: Activer les sites dans Nginx
+      file:
+        src: "{{ nginx_sites_available }}/{{ item }}"
+        dest: "{{ nginx_sites_enabled }}/{{ item }}"
+        state: link
+      with_items:
+        - vue
+        - node
+      notify:
+        - Reload Nginx
+
+  handlers:
+    - name: Reload Nginx
+      service:
+        name: nginx
+        state: reloaded
+
+    - name: Restart Node.js service
+      service:
+        name: node-app
+        state: restarted
