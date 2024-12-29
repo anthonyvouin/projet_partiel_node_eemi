@@ -1,0 +1,27 @@
+---
+- name: Create app directory
+  file:
+    path: /var/www/{{ full_back_hostname }}
+    state: directory
+    mode: '0755'
+
+- name: Clone application repository
+  git:
+    repo: "{{ app_repository }}"
+    dest: /var/www/{{ full_back_hostname }}
+    version: "{{ app_version | default('main') }}"
+
+- name: Install npm dependencies
+  npm:
+    path: /var/www/{{ full_back_hostname }}
+    state: present
+
+- name: Build application
+  command:
+    cmd: npm run build
+    chdir: /var/www/{{ full_back_hostname }}
+
+- name: Start application with PM2
+  command:
+    cmd: pm2 start npm --name "{{ app_name }}" -- start
+    chdir: /var/www/{{ full_back_hostname }} 

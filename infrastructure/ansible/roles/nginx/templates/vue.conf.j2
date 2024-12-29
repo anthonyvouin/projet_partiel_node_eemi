@@ -1,0 +1,11 @@
+server {
+    listen {{ http_port }};
+    server_name {{ full_front_hostname }};
+
+    root {{ vue_app_path }};
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+} 
