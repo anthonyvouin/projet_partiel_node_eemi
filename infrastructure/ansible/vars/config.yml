@@ -1,0 +1,8 @@
+http_port: 80
+full_front_hostname: "example1.com"
+full_back_hostname: "example2.com"
+node_port: 3000
+node_app_path: /var/www/node-app
+vue_app_path: /var/www/vue-app
+nginx_sites_enabled: /etc/nginx/sites-enabled
+nginx_sites_available: /etc/nginx/sites-available

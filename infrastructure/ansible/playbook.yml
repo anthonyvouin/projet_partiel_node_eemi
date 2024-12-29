@@ -1,11 +1,10 @@
 - name: Déployer Node.js et Vue.js avec Nginx
   hosts: webserver
   become: true
-  vars:
-    node_app_path: /var/www/node-app
-    vue_app_path: /var/www/vue-app
-    nginx_sites_enabled: /etc/nginx/sites-enabled
-    nginx_sites_available: /etc/nginx/sites-available
+
+  vars_files:
+    - vars/config.yml
+
   tasks:
     - name: Installation des paquets
       apt:
